@@ -15,6 +15,7 @@ set(SOURCES src/main.cpp
             src/objects/visible-object.cpp
             src/objects/visible-object-manager.cpp
             src/objects/gui/splashscreen.cpp
+            src/objects/gui/newgame-button.cpp
 )
 
 add_executable(DIVEUP ${SOURCES})

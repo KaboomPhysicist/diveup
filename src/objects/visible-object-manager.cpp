@@ -56,10 +56,22 @@ void VisibleObjectManager::updateAll(float timeElapsed) {
     }
     originItr++;
   }
-}void VisibleObjectManager::drawAll(sf::RenderWindow *window) {
+}
+
+void VisibleObjectManager::drawAll(sf::RenderWindow *window) {
+
+  std::multimap<size_t, VisibleObject*> *_orderedObjects = new std::multimap<size_t, VisibleObject*>();
+
   auto itr = _objects.begin();
   while (itr != _objects.end()) {
-    itr->second->draw(window);
+    _orderedObjects->insert(std::make_pair(itr->second->getPriority(), itr->second));
     itr++;
   }
+
+  for(auto& pair : *_orderedObjects) {
+
+    pair.second->draw(window);
+  }
+
+  delete  _orderedObjects;
 }

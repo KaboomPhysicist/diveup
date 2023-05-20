@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <iostream>
 
 class VisibleObject {
     public:
@@ -25,8 +26,12 @@ class VisibleObject {
     // Useful for rectangular objects.
     virtual sf::Rect<float> getBoundingRect();
 
+    virtual void setPriority(size_t priority);
+    virtual size_t getPriority();
+
     private:
     sf::Texture _texture;
     sf::Sprite _sprite;
     bool _isLoaded;
+    float _priority;
     };

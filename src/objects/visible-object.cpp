@@ -4,7 +4,6 @@
 VisibleObject::VisibleObject(std::string textureFilename) {
   if (!_texture.loadFromFile(textureFilename)) {
     std::cout << "Error while loading asset" << std::endl;
-    std::cout << textureFilename << "not found." <<std::endl;
     return;
   }
   _isLoaded = true;
@@ -56,4 +55,12 @@ float VisibleObject::getRight() {
 
 sf::Rect<float> VisibleObject::getBoundingRect() {
     return _sprite.getGlobalBounds();
+}
+
+void VisibleObject::setPriority(size_t priority) {
+    _priority = priority;
+}
+
+size_t VisibleObject::getPriority() {
+    return _priority;
 }

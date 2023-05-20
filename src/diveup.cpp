@@ -60,6 +60,8 @@ void DiveUp::gameLoop() {
         _currentState->draw(&_window);
 
         _window.display();
+
+        //_currentState->endLoopLogic();
     }
 }
 
