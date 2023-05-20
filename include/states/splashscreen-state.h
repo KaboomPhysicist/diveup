@@ -1,5 +1,6 @@
 #pragma once
-#include "game-state.h"
+#include "states/game-state.h"
+#include "objects/gui/splashscreen.h"
 
 class SplashscreenState : public GameState{
     public:
@@ -7,4 +8,5 @@ class SplashscreenState : public GameState{
         void handleInput(sf::Event *event) override;
         void update(float timeElapsed) override;
         void draw(sf::RenderWindow *window) override;
+        ~SplashscreenState() override;
 };

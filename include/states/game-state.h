@@ -1,15 +1,19 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "objects/visible-object-manager.h"
 
 class GameState {
 public:
     virtual ~GameState();
-    virtual void init();
-    virtual void handleInput(sf::Event *event);
-    virtual void update(float timeElapsed);
-    virtual void draw(sf::RenderWindow *window);
+    virtual void init() = 0;
+    virtual void handleInput(sf::Event *event) = 0;
+    virtual void update(float timeElapsed) = 0;
+    virtual void draw(sf::RenderWindow *window) = 0;
+
+    VisibleObjectManager* getObjectManager();
 
 protected:
+    VisibleObjectManager visibleObjectManager;
 };
 

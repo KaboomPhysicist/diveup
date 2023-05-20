@@ -7,11 +7,11 @@ class VisibleObject {
     public:
     VisibleObject(std::string textureFilename);
     virtual ~VisibleObject();
-    virtual void handleInput(sf::Event *event);
+    virtual void handleInput(sf::Event *event) {};
     virtual void update(float timeElapsed) = 0;
     virtual void draw(sf::RenderWindow *window);
 
-    virtual void collideWith(VisibleObject *target);
+    virtual void collideWith(VisibleObject *target) {};
 
     virtual void move(float x, float y);
     virtual void setPosition(float x, float y);

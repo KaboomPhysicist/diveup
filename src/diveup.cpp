@@ -6,14 +6,12 @@ DiveUp::State DiveUp::_state = Uninitialized;
 std::map<DiveUp::State, GameState*> DiveUp::_stateInstances;
 GameState *DiveUp::_currentState;
 
-
-
 void DiveUp::start()
 {
     if (_state != Uninitialized) return;
 
     // Create the game window
-    _window.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT,32), "DiveUp");
+    _window.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 32), "DiveUp");
     // Set max framerate
     _window.setFramerateLimit(60);
 

@@ -7,4 +7,5 @@ class PlayingState : public GameState{
         void handleInput(sf::Event *event) override;
         void update(float timeElapsed) override;
         void draw(sf::RenderWindow *window) override;
+        ~PlayingState() override;
 };

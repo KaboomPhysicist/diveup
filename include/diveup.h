@@ -11,8 +11,8 @@
 class DiveUp
 {
     public:
-        const static int SCREEN_WIDTH = 960;
-        const static int SCREEN_HEIGHT = 1440;
+        const static int SCREEN_WIDTH = 480;
+        const static int SCREEN_HEIGHT = 720;
         static void start();
         static void gameLoop();
 

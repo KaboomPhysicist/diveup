@@ -1,4 +1,5 @@
 #include "objects/visible-object.h"
+#include <iostream>
 
 VisibleObject::VisibleObject(std::string textureFilename) {
   if (!_texture.loadFromFile(textureFilename)) {
