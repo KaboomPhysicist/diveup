@@ -3,6 +3,8 @@
 #include "objects/gui/splashscreen.h"
 
 #include "objects/gui/newgame-button.h"
+#include "objects/gui/exit-button.h"
+#include "objects/entities/bubble.h"
 
 class SplashscreenState : public GameState{
     public:
@@ -10,5 +12,6 @@ class SplashscreenState : public GameState{
         void handleInput(sf::Event *event) override;
         void update(float timeElapsed) override;
         void draw(sf::RenderWindow *window) override;
+        void BubblesEffect();
         ~SplashscreenState() override;
 };

@@ -60,16 +60,18 @@ void VisibleObjectManager::updateAll(float timeElapsed) {
 
 void VisibleObjectManager::drawAll(sf::RenderWindow *window) {
 
+  // Create a multimap to order the objects by priority
   std::multimap<size_t, VisibleObject*> *_orderedObjects = new std::multimap<size_t, VisibleObject*>();
 
+  // Fills the multimap
   auto itr = _objects.begin();
   while (itr != _objects.end()) {
     _orderedObjects->insert(std::make_pair(itr->second->getPriority(), itr->second));
     itr++;
   }
 
+  // Draw the objects in order of priority
   for(auto& pair : *_orderedObjects) {
-
     pair.second->draw(window);
   }
 
