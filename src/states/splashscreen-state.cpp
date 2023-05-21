@@ -54,9 +54,9 @@ void SplashscreenState::initBubbles(){
 void SplashscreenState::GenerateBubble(short int index){
     // Generate random position for bubble
     int x = rand() % DiveUp::SCREEN_WIDTH;
-    int y = rand() % DiveUp::SCREEN_HEIGHT;
+    int y = rand() % (DiveUp::SCREEN_HEIGHT - 200) + 200;
 
-    std::cout << "Bubble index: " << index << std::endl;
+    //std::cout << "Bubble index: " << index << std::endl;
 
     _bubbles.at(index) = new Bubble(sf::Rect<float>(0, 0, DiveUp::SCREEN_WIDTH, DiveUp::SCREEN_HEIGHT));
 
@@ -65,7 +65,7 @@ void SplashscreenState::GenerateBubble(short int index){
 
     std::ostringstream bubbleName;
     bubbleName << "bubble" << index;
-    std::cout << "Created Bubble name: " << bubbleName.str() << std::endl;
+    //std::cout << "Created Bubble name: " << bubbleName.str() << std::endl;
 
     visibleObjectManager.add(bubbleName.str(), _bubbles.at(index));
 }

@@ -1,11 +1,12 @@
 #include "objects/entities/bubble.h"
 #include <cmath>
+#include <random>
 
 Bubble::Bubble(sf::Rect<float> constraints) : VisibleObject("assets/bubble.png") {
     // Apply transparency to the sprite. Last value is the alpha value.
     //this->_sprite.setColor(sf::Color(255, 255, 255, 128));
 
-    this->size = 25;
+    this->size = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/5)) + 22;
 
     sf::Vector2f targetSize(this->size, this->size); 
     this->_sprite.setScale(
@@ -25,13 +26,13 @@ void Bubble::update(float timeElapsed){
 
     lifetime += timeElapsed;
 
-    if(lifetime>maxlifetime){
+    if(this->getPosition().y < 0){
         this->isDead = true;
-        std::cout << "Bubble died" << std::endl;
+        //std::cout << "Bubble died" << std::endl;
     }
 
     float dispY = -yVelocity() * timeElapsed;
-    float dispX = 0;
+    float dispX = xVelocity() * timeElapsed;
 
     move(dispX, dispY);
 
@@ -46,7 +47,28 @@ float Bubble::yVelocity(){
     float factor = 200;
     float v = factor * std::sqrt(2 * m * g / (rho * A * Cd)) * std::tanh(lifetime * std::sqrt((rho * A * Cd * g) / (2 * m)));
 
+    //std::cout << "Bubble velocity: " << v << std::endl;
+
     return v;
+}
+
+// Generates random velocity according to a normal distribution
+float Bubble::xVelocity(){
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+
+    int i;
+    float sample;
+    float mean = 0;
+    float stddev = 20;
+
+    std::normal_distribution<float> d(mean, stddev);
+    sample = d(gen);
+
+    //std::cout << sample << std::endl;
+
+    return sample;
 }
 
 void Bubble::collideWith(VisibleObject *target) {};
