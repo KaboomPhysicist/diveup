@@ -4,7 +4,7 @@ diver::diver(float constraintLeft, float constraintRight) : VisibleObject("asset
     _constraintLeft = constraintLeft;
     _constraintRight = constraintRight;
 
-    sf::Vector2f targetSize(100.0f, 100.0f); 
+    sf::Vector2f targetSize(80.0f, 80.0f); 
     this->_sprite.setScale(
                             targetSize.x / this->_sprite.getLocalBounds().width, 
                             targetSize.y / this->_sprite.getLocalBounds().height);
@@ -31,6 +31,7 @@ void diver::handleInput(sf::Event *event) {
         }
     } else if (event->type == sf::Event::KeyReleased) {
             _direction = NONE;
+            diver::Set_texture("assets/stand-diver.png");
         }
     }
 
@@ -47,14 +48,7 @@ void diver::update(float timeElapsed) {
     }
     
     move(velocity * timeElapsed,0);
-/*
-    std::cout << "Diver position x: " << getPosition().x << std::endl;
-    std::cout << "Diver position y: " << getPosition().y << std::endl;
 
-    std::cout << "Constraint left: " << _constraintLeft << std::endl;
-    std::cout << "Constraint right: " << _constraintRight << std::endl;
-
-    */
     if (getPosition().x < _constraintLeft) {
         setPosition(_constraintLeft, getPosition().y);
     } else if (getPosition().x > _constraintRight) {
