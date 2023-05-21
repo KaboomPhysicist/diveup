@@ -7,11 +7,11 @@ void SplashscreenState::init() {
 
     // Add the buttons of the splashscreen/menu
     NewGameButton *newGameButton = new NewGameButton();
-    newGameButton->setPosition(120, 400);
+    newGameButton->setPosition(95, 360);
     newGameButton->setPriority(1);
 
     ExitButton *exitButton = new ExitButton();
-    exitButton->setPosition(120, 450);
+    exitButton->setPosition(95, 460);
     exitButton->setPriority(1);
 
     Bubble *bubble = new Bubble(sf::Rect<float>(0, 0, 800, 600));
