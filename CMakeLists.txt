@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 find_package(SFML 2.5.1 COMPONENTS graphics)
 
 include_directories(include)
+include_directories(lib)
 
 set(SOURCES src/main.cpp
             src/diveup.cpp
@@ -19,7 +20,9 @@ set(SOURCES src/main.cpp
             src/objects/gui/exit-button.cpp
             src/objects/entities/bubble.cpp
             src/objects/entities/field.cpp
-            src/objects/entities/diver.cpp)
+            src/objects/entities/diver.cpp
+            src/objects/entities/cliff.cpp
+            lib/collision.cpp)
 
 add_executable(DIVEUP ${SOURCES})
 
