@@ -4,6 +4,7 @@
 #include "objects/entities/field.h"
 #include "objects/entities/diver.h"
 #include "objects/entities/cliff.h"
+#include "diveup.h"
 
 
 
@@ -14,6 +15,15 @@ class PlayingState : public GameState{
         void update(float timeElapsed) override;
         void draw(sf::RenderWindow *window) override;
 
+        void generateCliffs(std::vector<Cliff*> cliffs);
+        void verifyCliffPos(int,int);
+
         //void scroll(float x, float y) override;
         ~PlayingState() override;
+
+    private:
+        float velocity;
+        std::vector<Cliff*> _cliffs;
+        int _cliffsMax;
+
 };
