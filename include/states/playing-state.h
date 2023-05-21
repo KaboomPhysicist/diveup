@@ -1,5 +1,7 @@
 #pragma once
 #include "game-state.h"
+#include "../objects/entities/field.h"
+
 
 class PlayingState : public GameState{
     public:
