@@ -11,6 +11,7 @@ void NewGameButton::handleInput(sf::Event *event) {
         if (getBoundingRect().contains(x, y)){
             std::cout << "New Game Button Pressed" << std::endl;
             DiveUp::setState(DiveUp::Playing);
+            std::cout << "state:play" << std::endl;
         }
     }
 }

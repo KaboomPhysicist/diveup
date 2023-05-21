@@ -18,7 +18,7 @@ set(SOURCES src/main.cpp
             src/objects/gui/newgame-button.cpp
             src/objects/gui/exit-button.cpp
             src/objects/entities/bubble.cpp
-)
+            src/objects/entities/field.cpp)
 
 add_executable(DIVEUP ${SOURCES})
 
