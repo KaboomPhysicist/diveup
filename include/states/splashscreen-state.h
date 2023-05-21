@@ -2,6 +2,8 @@
 #include "states/game-state.h"
 #include "objects/gui/splashscreen.h"
 
+#include <vector>
+
 #include "objects/gui/newgame-button.h"
 #include "objects/gui/exit-button.h"
 #include "objects/entities/bubble.h"
@@ -14,4 +16,11 @@ class SplashscreenState : public GameState{
         void draw(sf::RenderWindow *window) override;
         void BubblesEffect();
         ~SplashscreenState() override;
+    private:
+        short int _bubbleCounter;
+        short int _bubbleIndex;
+        short int _bubbleMax;
+        std::vector<Bubble*> _bubbles;
+        void GenerateBubble(short int index);
+        void initBubbles();
 };

@@ -1,5 +1,6 @@
 #include "states/splashscreen-state.h"
 #include "diveup.h"
+#include <sstream>
 
 void SplashscreenState::init() { 
     // Add the backgroud
@@ -15,7 +16,7 @@ void SplashscreenState::init() {
     exitButton->setPosition(95, 460);
     exitButton->setPriority(1);
 
-    
+    initBubbles();
 
     visibleObjectManager.add("splashscreen", splashscreen);
     visibleObjectManager.add("newGameButton", newGameButton);
@@ -37,17 +38,49 @@ void SplashscreenState::draw(sf::RenderWindow *window) {
 
 SplashscreenState::~SplashscreenState() { }
 
-void SplashscreenState::BubblesEffect(){
+void SplashscreenState::initBubbles(){
+    _bubbleCounter = 0;
+    _bubbleIndex = 0;
+    _bubbleMax = 4;
+    _bubbles = std::vector<Bubble*>(_bubbleMax);
+
+    for(int i=0; i<_bubbleMax; i++){
+        GenerateBubble(i);
+    }
+
+    std::cout << "Bubbles initialized" << std::endl;
+}
+
+void SplashscreenState::GenerateBubble(short int index){
     // Generate random position for bubble
     int x = rand() % DiveUp::SCREEN_WIDTH;
     int y = rand() % DiveUp::SCREEN_HEIGHT;
 
-    Bubble *bubble = new Bubble(sf::Rect<float>(0, 0, DiveUp::SCREEN_WIDTH, DiveUp::SCREEN_HEIGHT));
-    bubble->setPosition(x, y);
-    bubble->setPriority(1);
-    visibleObjectManager.add("testbubble", bubble);
-    
-    if(bubble->isDead){
-        visibleObjectManager.remove("testbubble");
+    std::cout << "Bubble index: " << index << std::endl;
+
+    _bubbles.at(index) = new Bubble(sf::Rect<float>(0, 0, DiveUp::SCREEN_WIDTH, DiveUp::SCREEN_HEIGHT));
+
+    _bubbles.at(index)->setPosition(x, y);
+    _bubbles.at(index)->setPriority(1);
+
+    std::ostringstream bubbleName;
+    bubbleName << "bubble" << index;
+    std::cout << "Created Bubble name: " << bubbleName.str() << std::endl;
+
+    visibleObjectManager.add(bubbleName.str(), _bubbles.at(index));
+}
+
+void SplashscreenState::BubblesEffect(){
+
+    //if(_bubbleCounter < _bubbleMax) GenerateBubble(_bubbleIndex);
+
+    _bubbleIndex = 0;
+
+    for(Bubble* bubble : _bubbles){
+        if(bubble->isDead){
+            visibleObjectManager.remove("bubble" + std::to_string(_bubbleIndex));
+            GenerateBubble(_bubbleIndex);
+        }
+        _bubbleIndex++;
     }
 }
