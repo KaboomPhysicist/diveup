@@ -1,4 +1,5 @@
 #include "states/splashscreen-state.h"
+#include "diveup.h"
 
 void SplashscreenState::init() { 
     // Add the backgroud
@@ -14,14 +15,11 @@ void SplashscreenState::init() {
     exitButton->setPosition(120, 450);
     exitButton->setPriority(1);
 
-    Bubble *bubble = new Bubble(sf::Rect<float>(0, 0, 800, 600));
-    bubble->setPosition(100, 100);
-    bubble->setPriority(1);
+    
 
     visibleObjectManager.add("splashscreen", splashscreen);
     visibleObjectManager.add("newGameButton", newGameButton);
     visibleObjectManager.add("exitButton", exitButton);
-    visibleObjectManager.add("testbubble", bubble);
 }
 
 void SplashscreenState::handleInput(sf::Event *event) {
@@ -29,6 +27,7 @@ void SplashscreenState::handleInput(sf::Event *event) {
 }
 
 void SplashscreenState::update(float timeElapsed) { 
+    BubblesEffect();
     visibleObjectManager.updateAll(timeElapsed);
 }
 
@@ -39,6 +38,16 @@ void SplashscreenState::draw(sf::RenderWindow *window) {
 SplashscreenState::~SplashscreenState() { }
 
 void SplashscreenState::BubblesEffect(){
+    // Generate random position for bubble
+    int x = rand() % DiveUp::SCREEN_WIDTH;
+    int y = rand() % DiveUp::SCREEN_HEIGHT;
 
-
+    Bubble *bubble = new Bubble(sf::Rect<float>(0, 0, DiveUp::SCREEN_WIDTH, DiveUp::SCREEN_HEIGHT));
+    bubble->setPosition(x, y);
+    bubble->setPriority(1);
+    visibleObjectManager.add("testbubble", bubble);
+    
+    if(bubble->isDead){
+        visibleObjectManager.remove("testbubble");
+    }
 }
