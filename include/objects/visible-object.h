@@ -30,10 +30,12 @@ class VisibleObject {
     virtual size_t getPriority();
 
     protected:
-    sf::Sprite _sprite;
+        sf::Sprite _sprite;
+        sf::Texture _texture;
+        bool _isLoaded;
 
     private:
-    sf::Texture _texture;
-    bool _isLoaded;
+    
+    
     float _priority;
     };

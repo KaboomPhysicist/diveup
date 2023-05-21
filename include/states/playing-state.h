@@ -9,5 +9,7 @@ class PlayingState : public GameState{
         void handleInput(sf::Event *event) override;
         void update(float timeElapsed) override;
         void draw(sf::RenderWindow *window) override;
+
+        //void scroll(float x, float y) override;
         ~PlayingState() override;
 };
