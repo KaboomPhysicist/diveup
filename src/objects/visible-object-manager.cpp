@@ -44,13 +44,13 @@ void VisibleObjectManager::updateAll(float timeElapsed) {
     itr->second->update(timeElapsed);
     itr++;
   }  // Detect collision. 
-  // This could be improved in a lot of way but give us a starting point
   auto originItr = _objects.begin();  while (originItr != _objects.end()) {
     sf::Rect<float> originBound = originItr->second->getBoundingRect();
     auto targetItr = _objects.begin();    while (targetItr != _objects.end()) {
       if (targetItr == originItr) { targetItr++; continue; }
       
-      sf::Rect<float> targetBound = targetItr->second->getBoundingRect();      if (originBound.intersects(targetBound)) {
+      sf::Rect<float> targetBound = targetItr->second->getBoundingRect();      
+      if (originBound.intersects(targetBound)) {
         originItr->second->collideWith(targetItr->second);
       }
       targetItr++;

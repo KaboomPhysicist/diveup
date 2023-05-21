@@ -1,6 +1,10 @@
 #pragma once
 #include "game-state.h"
-#include "../objects/entities/field.h"
+
+#include "objects/entities/field.h"
+#include "objects/entities/diver.h"
+#include "objects/entities/cliff.h"
+
 
 
 class PlayingState : public GameState{

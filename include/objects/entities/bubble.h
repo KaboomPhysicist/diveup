@@ -16,5 +16,6 @@ class Bubble : public VisibleObject {
         float size;
 
         float yVelocity();
+        float xVelocity();
 
 };
