@@ -6,6 +6,7 @@
 #include "objects/entities/cliff.h"
 #include "objects/entities/bubble.h"
 #include "diveup.h"
+#include <random>
 
 
 
@@ -20,7 +21,8 @@ class PlayingState : public GameState{
         ~PlayingState() override;
         
         void generateCliffs(std::vector<Cliff*> cliffs);
-        void verifyCliffPos(int,int);
+        void verifyCliffs(Cliff&);
+
 
     private:
         float velocity;

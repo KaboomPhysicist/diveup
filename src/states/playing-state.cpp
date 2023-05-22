@@ -5,14 +5,13 @@ void PlayingState::init() {
 
     Field *field = new Field();
     Diver *diver1 = new Diver(0,400);
-    //Cliff *cliff1 = new Cliff();
 
     diver1->setPosition(100, 200);
-    //cliff1->setPosition(0, 200);
     
     field->setPriority(0);
-    //cliff1->setPriority(1);
     diver1->setPriority(2);
+
+    generateCliffs(_cliffs);
 
     _bubbleMax = 15;
     _bubbles = std::vector<Bubble*>(_bubbleMax);
@@ -26,8 +25,12 @@ void PlayingState::init() {
 
     visibleObjectManager.add("field", field);
     visibleObjectManager.add("diver1", diver1);
-    //visibleObjectManager.add("cliff1", cliff1);
- }
+
+    for (int i = 0; i < _cliffs.size(); i++){
+        visibleObjectManager.add("cliff" + std::to_string(i), _cliffs.at(i));
+        _cliffs.at(i)->setPriority(1);
+    }
+}
 
 void PlayingState::handleInput(sf::Event *event) {
     visibleObjectManager.handleInputAll(event);
@@ -54,45 +57,65 @@ void PlayingState::BubblePopulation(){
             _bubbleIndex++;
         }
 }
+void PlayingState::verifyCliffs(Cliff &cliff){
 
-void PlayingState::verifyCliffPos(int x, int y){
-    // verify if the cliff is not in the same positions as any other cliff
+        sf::Rect<float> cliffBound = cliff.getBoundingRect();
+        for (int j=0; j< _cliffs.size(); j++){
+        
+            sf::Rect<float> targetBound = _cliffs.at(j)->getBoundingRect();
 
-    for (int i = 0; i < _cliffs.size(); i++){
-        if (x == _cliffs.at(i)->getPosition().x && y == _cliffs.at(i)->getPosition().y){
-            x = rand() % DiveUp::SCREEN_WIDTH;
-            y = rand() % (DiveUp::SCREEN_HEIGHT - 1200) + 1200;
-            verifyCliffPos(x,y);
+
+            if (cliffBound.intersects(targetBound)) {
+                //std::cout << "cliff intersected" << std::endl;
+
+                std::vector<float> _cliffPos;
+                float desplacement = ((rand() % 2 == 0) ? 1 : -1)*targetBound.height;
+
+                _cliffPos = {cliff.getPosition().x,
+                             cliff.getPosition().y+desplacement};
+
+
+                cliff.setPosition(_cliffPos.at(0), _cliffPos.at(1));
+                
+                verifyCliffs(cliff);
+                }
+
+                
         }
-    }
 }
+
+
 void PlayingState::generateCliffs(std::vector<Cliff*> cliffs){
 
-    _cliffsMax = 6;
+    _cliffsMax = 5;
     for (int i=0; i< _cliffsMax ;i++){
 
-        // generate postions
-        int x = rand() % DiveUp::SCREEN_WIDTH;
-        int y = rand() % (DiveUp::SCREEN_HEIGHT - 1200) + 1200;
+        //generate random position for cliffs
+        std::random_device rd;
+        std::mt19937 gen(rd());
+
+        std::normal_distribution<float> ypos(360, 300);
+        std::normal_distribution<float> size(200, 50);
+
+        std::vector<float> _cliffPos= {0,ypos(gen)};
 
         //generate size for cliffs
-        int sizex = rand() % 100 + rand() % 100+50;
-        int sizey = rand() % 100 + rand() % 100+50;
-
-        std::cout << "sise x: " << sizex << std::endl;
-        std::cout << "sise y: " << sizey << std::endl;
-
-        // verify if the cliff is not in the same position as the previous one
-        if (i > 0){verifyCliffPos(x,y);}
-
-        std::cout << "x: " << x << std::endl;
-        std::cout << "y: " << y << std::endl;
+        int sizex = size(gen)-50;
+        int sizey = size(gen);
 
         Cliff *cliff = new Cliff(sizey,sizex);
-        cliff->setPosition(x, y);
+        cliff->setPosition(_cliffPos.at(0), _cliffPos.at(1));
+
+        // verify if the cliff is not in the same position as the previous one
+
+
+        if (i > 0){
+            verifyCliffs(*cliff); }
+
         _cliffs.push_back(cliff);
 
     }
 }
+
 
 PlayingState::~PlayingState() { }
