@@ -20,6 +20,7 @@ class PlayingState : public GameState{
         //void scroll(float x, float y) override;
         ~PlayingState() override;
         
+
         void generateCliffs(std::vector<Cliff*> cliffs);
         void verifyCliffs(Cliff&);
         void verifySpace(Cliff&);
@@ -30,6 +31,7 @@ class PlayingState : public GameState{
         float velocity;
         std::vector<Cliff*> _cliffs;
         int _cliffsMax;
+        
         short int _bubbleMax;
         std::vector<Bubble*> _bubbles;
         float _ascendingSpeed;

@@ -19,6 +19,14 @@ Cliff::Cliff(int sizex, int sizey,float dir) : VisibleObject("assets/cliff1.png"
     velocity = 50.0f;
 }
 
+
+void Cliff::collideWith(VisibleObject *target) {
+    if(!dynamic_cast<Diver*>(target) ) return;
+    std::cout << "Te diste un tiestaso" << std::endl;
+    DiveUp::setState(DiveUp::Gameover);
+};
+
+
 void Cliff::update(float timeElapsed) { 
 
     move(0, velocity * timeElapsed);

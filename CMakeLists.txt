@@ -16,12 +16,15 @@ set(SOURCES src/main.cpp
             src/objects/visible-object.cpp
             src/objects/visible-object-manager.cpp
             src/objects/gui/splashscreen.cpp
+            src/objects/gui/gameoverscreen.cpp
             src/objects/gui/newgame-button.cpp
             src/objects/gui/exit-button.cpp
+            src/objects/gui/playagain-button.cpp
             src/objects/entities/bubble.cpp
             src/objects/entities/field.cpp
             src/objects/entities/diver.cpp
             src/objects/entities/cliff.cpp
+        
             lib/collision.cpp)
 
 add_executable(DIVEUP ${SOURCES})
