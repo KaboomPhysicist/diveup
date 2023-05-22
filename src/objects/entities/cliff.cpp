@@ -1,8 +1,8 @@
 #include "objects/entities/cliff.h"
 #include "diveup.h"
 
-Cliff::Cliff() : VisibleObject("assets/cliff1.png") { 
-    sf::Vector2f targetSize(300, 300); 
+Cliff::Cliff(int sizex, int sizey) : VisibleObject("assets/cliff1.png") { 
+    sf::Vector2f targetSize(sizex, sizey); 
     this->_sprite.setScale(
                             targetSize.x / this->_sprite.getLocalBounds().width, 
                             targetSize.y / this->_sprite.getLocalBounds().height);
@@ -13,6 +13,7 @@ void Cliff::update(float timeElapsed) {
 
     move(0, velocity * timeElapsed);
 }
+
 
 void Cliff::handleInput(sf::Event *event){
     if (event->type == sf::Event::MouseButtonPressed) {

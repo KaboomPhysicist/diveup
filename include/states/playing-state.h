@@ -5,6 +5,7 @@
 #include "objects/entities/diver.h"
 #include "objects/entities/cliff.h"
 #include "objects/entities/bubble.h"
+#include "diveup.h"
 
 
 
@@ -17,7 +18,15 @@ class PlayingState : public GameState{
         void BubblePopulation();
         //void scroll(float x, float y) override;
         ~PlayingState() override;
+        
+        void generateCliffs(std::vector<Cliff*> cliffs);
+        void verifyCliffPos(int,int);
+
     private:
+        float velocity;
+        std::vector<Cliff*> _cliffs;
+        int _cliffsMax;
         short int _bubbleMax;
         std::vector<Bubble*> _bubbles;
+
 };

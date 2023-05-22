@@ -5,9 +5,10 @@
 
 class Cliff: public VisibleObject {
 public:
-    Cliff();
+    Cliff(int,int);
     void update(float timeElapsed);
     void handleInput(sf::Event *event);
-private:
-    float velocity;
+
+    private:
+        float velocity;
 };
