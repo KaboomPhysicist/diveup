@@ -8,7 +8,7 @@
 
 class Bubble : public VisibleObject {
     public:
-        Bubble(float factor);
+        Bubble(sf::Rect<float> constraints, float factor, float velocity_bias);
         void update(float timeElapsed);
         void collideWith(VisibleObject *target);
         bool isDead;
@@ -18,6 +18,8 @@ class Bubble : public VisibleObject {
         float maxlifetime;
         float size;
         float velocity_factor;
+        float velocity_bias;
+        sf::Rect<float> constraints;
 
         float yVelocity();
         float xVelocity();
@@ -25,6 +27,6 @@ class Bubble : public VisibleObject {
 };
 
 namespace Bubbles{
-    void GenerateBubble(short int index, float velocity_factor, std::vector<int> SCREEN_RANGE, std::vector<Bubble*>& _bubbles, VisibleObjectManager& visibleObjectManager);
-    void initBubbles(short int bubbleMax, float velocity_factor, std::vector<int> SCREEN_RANGE, std::vector <Bubble*>& _bubbles, VisibleObjectManager& visibleObjectManager);
+    void GenerateBubble(short int index, float velocity_factor, float velocity_bias, sf::Rect<float> constraints, std::vector<int> SCREEN_RANGE, std::vector<Bubble*>& _bubbles, VisibleObjectManager& visibleObjectManager);
+    void initBubbles(short int bubbleMax, float velocity_factor, float velocity_bias, sf::Rect<float> constraints, std::vector<int> SCREEN_RANGE, std::vector <Bubble*>& _bubbles, VisibleObjectManager& visibleObjectManager);
 }
