@@ -17,8 +17,12 @@ void PlayingState::init() {
     _bubbleMax = 15;
     _bubbles = std::vector<Bubble*>(_bubbleMax);
 
+    _ascendingSpeed = 200;
+
     std::vector SCREEN_RANGE = {0, DiveUp::SCREEN_WIDTH, 0, DiveUp::SCREEN_HEIGHT};
-    Bubbles::initBubbles(_bubbleMax, 30, SCREEN_RANGE, this->_bubbles, visibleObjectManager);
+    bubble_constraints = {0, -DiveUp::SCREEN_HEIGHT, DiveUp::SCREEN_WIDTH, 2*DiveUp::SCREEN_HEIGHT};
+
+    Bubbles::initBubbles(_bubbleMax, 30, _ascendingSpeed, bubble_constraints, SCREEN_RANGE, this->_bubbles, visibleObjectManager);
 
     visibleObjectManager.add("field", field);
     visibleObjectManager.add("diver1", diver1);
@@ -40,11 +44,12 @@ void PlayingState::draw(sf::RenderWindow *window) {
 
 void PlayingState::BubblePopulation(){
         short int _bubbleIndex = 0;
-        std::vector SCREEN_RANGE = {0, DiveUp::SCREEN_WIDTH, 0, DiveUp::SCREEN_HEIGHT};
+        std::vector SCREEN_RANGE = {0, DiveUp::SCREEN_WIDTH, -DiveUp::SCREEN_HEIGHT, 0};
+
         for(Bubble* bubble : _bubbles){
             if(bubble->isDead){
                 visibleObjectManager.remove("bubble" + std::to_string(_bubbleIndex));
-                Bubbles::GenerateBubble(_bubbleIndex, 30, SCREEN_RANGE, _bubbles, visibleObjectManager);
+                Bubbles::GenerateBubble(_bubbleIndex, 30, _ascendingSpeed, bubble_constraints, SCREEN_RANGE, _bubbles, visibleObjectManager);
             }
             _bubbleIndex++;
         }

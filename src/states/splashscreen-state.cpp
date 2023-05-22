@@ -19,8 +19,9 @@ void SplashscreenState::init() {
     _bubbleMax = 5;
     _bubbles = std::vector<Bubble*>(_bubbleMax);
     SCREEN_RANGE = {0, DiveUp::SCREEN_WIDTH, 200, DiveUp::SCREEN_HEIGHT - 100};
+    bubble_constraints = {0, -20, DiveUp::SCREEN_WIDTH, DiveUp::SCREEN_HEIGHT+20};
 
-    Bubbles::initBubbles(_bubbleMax, 200, SCREEN_RANGE, _bubbles, visibleObjectManager);
+    Bubbles::initBubbles(_bubbleMax, 200, 0, bubble_constraints, SCREEN_RANGE,_bubbles, visibleObjectManager);
 
     visibleObjectManager.add("splashscreen", splashscreen);
     visibleObjectManager.add("newGameButton", newGameButton);
@@ -52,7 +53,7 @@ void SplashscreenState::BubblesEffect(){
     for(Bubble* bubble : _bubbles){
         if(bubble->isDead){
             visibleObjectManager.remove("bubble" + std::to_string(_bubbleIndex));
-            Bubbles::GenerateBubble(_bubbleIndex, 200,SCREEN_RANGE, _bubbles, visibleObjectManager);
+            Bubbles::GenerateBubble(_bubbleIndex, 200, 0, bubble_constraints, SCREEN_RANGE, _bubbles, visibleObjectManager);
         }
         _bubbleIndex++;
     }

@@ -28,5 +28,7 @@ class PlayingState : public GameState{
         int _cliffsMax;
         short int _bubbleMax;
         std::vector<Bubble*> _bubbles;
-
+        float _ascendingSpeed;
+        short int _level;
+        sf::Rect<float> bubble_constraints;
 };

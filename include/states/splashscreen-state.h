@@ -20,4 +20,5 @@ class SplashscreenState : public GameState{
         short int _bubbleMax;
         std::vector<Bubble*> _bubbles;
         std::vector<int> SCREEN_RANGE;
+        sf::Rect<float> bubble_constraints;
 };
