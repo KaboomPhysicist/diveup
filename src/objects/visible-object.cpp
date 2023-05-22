@@ -64,3 +64,7 @@ void VisibleObject::setPriority(size_t priority) {
 size_t VisibleObject::getPriority() {
     return _priority;
 }
+
+sf::Sprite VisibleObject::getSprite() {
+    return _sprite;
+}

@@ -29,6 +29,8 @@ class VisibleObject {
     virtual void setPriority(size_t priority);
     virtual size_t getPriority();
 
+    virtual sf::Sprite getSprite();
+
     protected:
         sf::Sprite _sprite;
         sf::Texture _texture;

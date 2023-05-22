@@ -1,7 +1,7 @@
 /* 
  * File:   collision.h
  * Authors: Nick Koirala (original version), ahnonay (SFML2 compatibility), switchboy (single pixel test)
- *          Paweł Syska (C++17 refactor + naming convention)
+ *          Paweł Syska (C++17 refactor + naming convention), KaboomPhysicist (via ChatGPT, correction and testing)
  *
  * Collision Detection and handling class
  * For SFML2.

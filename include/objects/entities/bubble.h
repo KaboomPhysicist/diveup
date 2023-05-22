@@ -2,6 +2,8 @@
 
 #include "objects/visible-object.h"
 #include "objects/visible-object-manager.h"
+#include "objects/entities/diver.h"
+#include "objects/entities/cliff.h"
 #include <vector>
 
 class Bubble : public VisibleObject {

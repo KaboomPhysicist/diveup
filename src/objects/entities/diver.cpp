@@ -1,6 +1,6 @@
 #include "objects/entities/diver.h"
 
-diver::diver(float constraintLeft, float constraintRight) : VisibleObject("assets/diver-right.png") {
+Diver::Diver(float constraintLeft, float constraintRight) : VisibleObject("assets/diver-right.png") {
     _constraintLeft = constraintLeft;
     _constraintRight = constraintRight;
 
@@ -10,7 +10,7 @@ diver::diver(float constraintLeft, float constraintRight) : VisibleObject("asset
                             targetSize.y / this->_sprite.getLocalBounds().height);
 }
 
-void diver::Set_texture(std::string textureFilename) {
+void Diver::Set_texture(std::string textureFilename) {
     if (!_texture.loadFromFile(textureFilename)) {
         std::cout << "Error while loading asset" << std::endl;
         return;
@@ -20,23 +20,23 @@ void diver::Set_texture(std::string textureFilename) {
 
 }
 
-void diver::handleInput(sf::Event *event) {
+void Diver::handleInput(sf::Event *event) {
     if (event->type == sf::Event::KeyPressed) {
         if (event->key.code == sf::Keyboard::Left) {
             _direction = Left;
-            diver::Set_texture("assets/diver-left.png");
+            this->Set_texture("assets/diver-left.png");
         } else if (event->key.code == sf::Keyboard::Right) {
             _direction = Right;
-            diver::Set_texture("assets/diver-right.png");
+            this->Set_texture("assets/diver-right.png");
         }
     } else if (event->type == sf::Event::KeyReleased) {
             _direction = NONE;
-            diver::Set_texture("assets/stand-diver.png");
+            this->Set_texture("assets/stand-diver.png");
         }
     }
 
 
-void diver::update(float timeElapsed) {
+void Diver::update(float timeElapsed) {
 
 
     float velocity = 0.0f;
@@ -54,4 +54,12 @@ void diver::update(float timeElapsed) {
     } else if (getPosition().x > _constraintRight) {
         setPosition(_constraintRight, getPosition().y);
     }
+}
+
+void Diver::collideWith(VisibleObject *target){
+    if(!dynamic_cast<Bubble*>(target)) return;
+
+    std::cout << "Oxygen for you" << std::endl;
+    _oxygen += 10;
+
 }

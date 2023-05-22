@@ -71,7 +71,14 @@ float Bubble::xVelocity(){
     return sample;
 }
 
-void Bubble::collideWith(VisibleObject *target) {};
+void Bubble::collideWith(VisibleObject *target) {
+    if(!dynamic_cast<Diver*>(target) and !dynamic_cast<Cliff*>(target)) return;
+
+    //if(!dynamic_cast<Bubble*>(target)) return;
+
+    this->isDead = true;
+
+};
 
 namespace Bubbles{
 

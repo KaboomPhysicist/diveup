@@ -4,7 +4,7 @@
 void PlayingState::init() {
 
     Field *field = new Field();
-    diver *diver1 = new diver(0,400);
+    Diver *diver1 = new Diver(0,400);
     //Cliff *cliff1 = new Cliff();
 
     diver1->setPosition(100, 200);
