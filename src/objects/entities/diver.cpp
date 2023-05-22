@@ -59,7 +59,7 @@ void Diver::update(float timeElapsed) {
 void Diver::collideWith(VisibleObject *target){
     if(!dynamic_cast<Bubble*>(target)) return;
 
-    std::cout << "Oxygen for you" << std::endl;
+    //std::cout << "Oxygen for you" << std::endl;
     _oxygen += 10;
 
 }

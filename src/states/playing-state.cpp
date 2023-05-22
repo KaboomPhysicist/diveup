@@ -6,7 +6,10 @@ void PlayingState::init() {
     Field *field = new Field();
     Diver *diver1 = new Diver(0,400);
 
-    diver1->setPosition(100, 200);
+    diver1->setPosition(100, 550);
+    sf::Rect<float> diverBound = diver1->getBoundingRect();
+    std::cout<<"diver width: "<<diverBound.width<<std::endl;
+
     
     field->setPriority(0);
     diver1->setPriority(2);
@@ -60,57 +63,81 @@ void PlayingState::BubblePopulation(){
 void PlayingState::verifyCliffs(Cliff &cliff){
 
         sf::Rect<float> cliffBound = cliff.getBoundingRect();
+
+        //verify if cliff is colliding with another cliff    
+        for (int j=0; j< _cliffs.size(); j++){
+        
+            sf::Rect<float> targetBound = _cliffs.at(j)->getBoundingRect();
+            if (cliffBound.intersects(targetBound)) {
+
+                std::vector<float> _cliffPos;
+                float desplacement = ((rand() % 2 == 0) ? 1 : -1)*targetBound.height+100;
+                _cliffPos = {cliff.getPosition().x, cliff.getPosition().y+desplacement};
+
+                cliff.setPosition(_cliffPos.at(0), _cliffPos.at(1));
+                verifyCliffs(cliff);
+    }}}
+
+void PlayingState::verifySpace(Cliff &cliff){
+    // verifys if there is space for the diver to pass through the cliffs
+
+        sf::Rect<float> cliffBound = cliff.getBoundingRect();
+        
+        float diverWidth = 80;
+
+
         for (int j=0; j< _cliffs.size(); j++){
         
             sf::Rect<float> targetBound = _cliffs.at(j)->getBoundingRect();
 
+            if (cliffBound.top<=targetBound.top && cliffBound.top>=targetBound.top-targetBound.height){
 
-            if (cliffBound.intersects(targetBound)) {
-                //std::cout << "cliff intersected" << std::endl;
+                if (cliffBound.width+targetBound.width+diverWidth>=DiveUp::SCREEN_WIDTH){
+                    
 
-                std::vector<float> _cliffPos;
-                float desplacement = ((rand() % 2 == 0) ? 1 : -1)*targetBound.height;
+                    float difference = cliffBound.width+targetBound.width+diverWidth-DiveUp::SCREEN_WIDTH;
+                    if (cliff.getPosition().x>0){
+                    
+                        cliff.setPosition(cliff.getPosition().x-difference+8, cliff.getPosition().y);}
+                    else if (cliff.getPosition().x==0){
+                    
+                        cliff.setPosition(cliff.getPosition().x+difference-8, cliff.getPosition().y);
+                    }
 
-                _cliffPos = {cliff.getPosition().x,
-                             cliff.getPosition().y+desplacement};
-
-
-                cliff.setPosition(_cliffPos.at(0), _cliffPos.at(1));
-                
-                verifyCliffs(cliff);
-                }
-
-                
-        }
-}
+}}}}
 
 
 void PlayingState::generateCliffs(std::vector<Cliff*> cliffs){
 
-    _cliffsMax = 5;
+    _cliffsMax = 20;
     for (int i=0; i< _cliffsMax ;i++){
 
         //generate random position for cliffs
         std::random_device rd;
         std::mt19937 gen(rd());
 
-        std::normal_distribution<float> ypos(360, 300);
-        std::normal_distribution<float> size(200, 50);
+        std::normal_distribution<float> ypos(100, 100);
+        std::normal_distribution<float> size(100, 50);
 
-        std::vector<float> _cliffPos= {0,ypos(gen)};
+        float direction = (rand() % 2 == 0);
+        float altura = ypos(gen);
+        std::cout << "altura: " << altura << std::endl;
+        std::vector<float> _cliffPos= {direction*DiveUp::SCREEN_WIDTH,altura};
 
         //generate size for cliffs
-        int sizex = size(gen)-50;
-        int sizey = size(gen);
+        int sizex = size(gen)+100;
+        int sizey = size(gen)+100;
 
-        Cliff *cliff = new Cliff(sizey,sizex);
+        //std::cout << "size: " << sizex << " " << sizey << std::endl;
+
+        Cliff *cliff = new Cliff(sizex,sizey,direction);
         cliff->setPosition(_cliffPos.at(0), _cliffPos.at(1));
 
-        // verify if the cliff is not in the same position as the previous one
-
+        // verify if the cliff does not intersect with another cliff
 
         if (i > 0){
-            verifyCliffs(*cliff); }
+            verifyCliffs(*cliff); 
+            verifySpace(*cliff);}
 
         _cliffs.push_back(cliff);
 

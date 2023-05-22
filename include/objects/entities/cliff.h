@@ -5,7 +5,7 @@
 
 class Cliff: public VisibleObject {
 public:
-    Cliff(int,int);
+    Cliff(int,int,float);
     void update(float timeElapsed);
     void handleInput(sf::Event *event);
 

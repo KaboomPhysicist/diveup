@@ -1,17 +1,27 @@
 #include "objects/entities/cliff.h"
 #include "diveup.h"
 
-Cliff::Cliff(int sizex, int sizey) : VisibleObject("assets/cliff1.png") { 
+Cliff::Cliff(int sizex, int sizey,float dir) : VisibleObject("assets/cliff1.png") { 
     sf::Vector2f targetSize(sizex, sizey); 
-    this->_sprite.setScale(
+    if (dir == 1.0f) {
+        this->_sprite.setScale(
+                            -targetSize.x / this->_sprite.getLocalBounds().width, 
+                            targetSize.y / this->_sprite.getLocalBounds().height
+                            );
+    } else {
+        this->_sprite.setScale(
                             targetSize.x / this->_sprite.getLocalBounds().width, 
-                            targetSize.y / this->_sprite.getLocalBounds().height);
-    velocity = 10.0f;
+                            targetSize.y / this->_sprite.getLocalBounds().height
+                            );
+    }
+
+    
+    velocity = 30.0f;
 }
 
 void Cliff::update(float timeElapsed) { 
 
-    move(0, -velocity * timeElapsed);
+    move(0, velocity * timeElapsed);
 }
 
 
