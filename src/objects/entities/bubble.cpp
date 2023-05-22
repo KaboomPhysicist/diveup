@@ -1,8 +1,9 @@
 #include "objects/entities/bubble.h"
 #include <cmath>
 #include <random>
+#include <sstream>
 
-Bubble::Bubble(sf::Rect<float> constraints) : VisibleObject("assets/bubble.png") {
+Bubble::Bubble(float factor) : VisibleObject("assets/bubble.png") {
     // Apply transparency to the sprite. Last value is the alpha value.
     //this->_sprite.setColor(sf::Color(255, 255, 255, 128));
 
@@ -13,7 +14,8 @@ Bubble::Bubble(sf::Rect<float> constraints) : VisibleObject("assets/bubble.png")
                             targetSize.x / this->_sprite.getLocalBounds().width, 
                             targetSize.y / this->_sprite.getLocalBounds().height);
 
-    this->constraints = constraints;
+    this->velocity_factor = factor;
+
     this->maxlifetime = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/5));
     //std::cout << "Bubble maxlifetime: " << this->maxlifetime << std::endl;
     this->lifetime = 0;
@@ -35,7 +37,6 @@ void Bubble::update(float timeElapsed){
     float dispX = xVelocity() * timeElapsed;
 
     move(dispX, dispY);
-
 }
 
 float Bubble::yVelocity(){
@@ -44,8 +45,7 @@ float Bubble::yVelocity(){
     float A = 3.14*(this->size)*(this->size);
     float Cd = 0.47;
     float m = 1;
-    float factor = 200;
-    float v = factor * std::sqrt(2 * m * g / (rho * A * Cd)) * std::tanh(lifetime * std::sqrt((rho * A * Cd * g) / (2 * m)));
+    float v = velocity_factor * std::sqrt(2 * m * g / (rho * A * Cd)) * std::tanh(lifetime * std::sqrt((rho * A * Cd * g) / (2 * m)));
 
     //std::cout << "Bubble velocity: " << v << std::endl;
 
@@ -72,3 +72,41 @@ float Bubble::xVelocity(){
 }
 
 void Bubble::collideWith(VisibleObject *target) {};
+
+namespace Bubbles{
+
+    void GenerateBubble(short int index, float velocity_factor,std::vector<int> SCREEN_RANGE,std::vector<Bubble*>& _bubbles, VisibleObjectManager& visibleObjectManager){
+        // Generate random position for bubble
+
+        std::random_device rd;
+        std::mt19937 gen(rd());
+
+        std::uniform_int_distribution<> disx(SCREEN_RANGE.at(0), SCREEN_RANGE.at(1));
+        std::uniform_int_distribution<> disy(SCREEN_RANGE.at(2), SCREEN_RANGE.at(3));
+
+        //int x = (rand() % SCREEN_RANGE.at(1)) + SCREEN_RANGE.at(0);
+        //int y = (rand() % SCREEN_RANGE.at(3)) + SCREEN_RANGE.at(2);
+
+        int x = disx(gen);
+        int y = disy(gen);
+
+        //std::cout << "Bubble index: " << index << std::endl;
+
+        _bubbles.at(index) = new Bubble(velocity_factor);
+
+        _bubbles.at(index)->setPosition(x, y);
+        _bubbles.at(index)->setPriority(1);
+
+        std::ostringstream bubbleName;
+        bubbleName << "bubble" << index;
+        //std::cout << "Created Bubble name: " << bubbleName.str() << std::endl;
+
+        visibleObjectManager.add(bubbleName.str(), _bubbles.at(index));
+    }
+
+    void initBubbles(short int bubbleMax, float velocity_factor, std::vector<int> SCREEN_RANGE, std::vector <Bubble*>& _bubbles, VisibleObjectManager& visibleObjectManager){
+        for(int i=0; i<bubbleMax; i++){
+            GenerateBubble(i, velocity_factor, SCREEN_RANGE, _bubbles, visibleObjectManager);
+        }
+    }
+}

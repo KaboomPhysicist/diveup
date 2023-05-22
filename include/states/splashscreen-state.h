@@ -17,10 +17,7 @@ class SplashscreenState : public GameState{
         void BubblesEffect();
         ~SplashscreenState() override;
     private:
-        short int _bubbleCounter;
-        short int _bubbleIndex;
         short int _bubbleMax;
         std::vector<Bubble*> _bubbles;
-        void GenerateBubble(short int index);
-        void initBubbles();
+        std::vector<int> SCREEN_RANGE;
 };

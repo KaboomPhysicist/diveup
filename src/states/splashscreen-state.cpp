@@ -16,11 +16,16 @@ void SplashscreenState::init() {
     exitButton->setPosition(95, 460);
     exitButton->setPriority(1);
 
-    initBubbles();
+    _bubbleMax = 5;
+    _bubbles = std::vector<Bubble*>(_bubbleMax);
+    SCREEN_RANGE = {0, DiveUp::SCREEN_WIDTH, 200, DiveUp::SCREEN_HEIGHT - 100};
+
+    Bubbles::initBubbles(_bubbleMax, 200, SCREEN_RANGE, _bubbles, visibleObjectManager);
 
     visibleObjectManager.add("splashscreen", splashscreen);
     visibleObjectManager.add("newGameButton", newGameButton);
     visibleObjectManager.add("exitButton", exitButton);
+    std::cout << "Splashscreen initialized" << std::endl;
 }
 
 void SplashscreenState::handleInput(sf::Event *event) {
@@ -38,48 +43,16 @@ void SplashscreenState::draw(sf::RenderWindow *window) {
 
 SplashscreenState::~SplashscreenState() { }
 
-void SplashscreenState::initBubbles(){
-    _bubbleCounter = 0;
-    _bubbleIndex = 0;
-    _bubbleMax = 4;
-    _bubbles = std::vector<Bubble*>(_bubbleMax);
-
-    for(int i=0; i<_bubbleMax; i++){
-        GenerateBubble(i);
-    }
-
-    std::cout << "Bubbles initialized" << std::endl;
-}
-
-void SplashscreenState::GenerateBubble(short int index){
-    // Generate random position for bubble
-    int x = rand() % DiveUp::SCREEN_WIDTH;
-    int y = rand() % (DiveUp::SCREEN_HEIGHT - 200) + 200;
-
-    //std::cout << "Bubble index: " << index << std::endl;
-
-    _bubbles.at(index) = new Bubble(sf::Rect<float>(0, 0, DiveUp::SCREEN_WIDTH, DiveUp::SCREEN_HEIGHT));
-
-    _bubbles.at(index)->setPosition(x, y);
-    _bubbles.at(index)->setPriority(1);
-
-    std::ostringstream bubbleName;
-    bubbleName << "bubble" << index;
-    //std::cout << "Created Bubble name: " << bubbleName.str() << std::endl;
-
-    visibleObjectManager.add(bubbleName.str(), _bubbles.at(index));
-}
-
 void SplashscreenState::BubblesEffect(){
 
     //if(_bubbleCounter < _bubbleMax) GenerateBubble(_bubbleIndex);
 
-    _bubbleIndex = 0;
+    short int _bubbleIndex = 0;
 
     for(Bubble* bubble : _bubbles){
         if(bubble->isDead){
             visibleObjectManager.remove("bubble" + std::to_string(_bubbleIndex));
-            GenerateBubble(_bubbleIndex);
+            Bubbles::GenerateBubble(_bubbleIndex, 200,SCREEN_RANGE, _bubbles, visibleObjectManager);
         }
         _bubbleIndex++;
     }
