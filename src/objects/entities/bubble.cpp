@@ -3,7 +3,7 @@
 #include <random>
 #include <sstream>
 
-Bubble::Bubble(float factor) : VisibleObject("assets/bubble.png") {
+Bubble::Bubble(float factor) : VisibleObject("assets/bubble1.png") {
     // Apply transparency to the sprite. Last value is the alpha value.
     //this->_sprite.setColor(sf::Color(255, 255, 255, 128));
 

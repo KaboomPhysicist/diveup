@@ -6,16 +6,20 @@ Cliff::Cliff(int sizex, int sizey) : VisibleObject("assets/cliff1.png") {
     this->_sprite.setScale(
                             targetSize.x / this->_sprite.getLocalBounds().width, 
                             targetSize.y / this->_sprite.getLocalBounds().height);
-    velocity = 0.0f;
+    velocity = 10.0f;
 }
 
 void Cliff::update(float timeElapsed) { 
 
-    move(0, velocity * timeElapsed);
+    move(0, -velocity * timeElapsed);
 }
 
 
 void Cliff::handleInput(sf::Event *event){
+
+    //move(0, velocity * DiveUp::timeElapsed.asSeconds());
+
+    /*
     if (event->type == sf::Event::MouseButtonPressed) {
         int x = event->mouseButton.x;
         int y = event->mouseButton.y;
@@ -34,6 +38,9 @@ void Cliff::handleInput(sf::Event *event){
                 velocity = 100.0f;
             else if(velocity == 100.0f)
                 velocity = 0.0f;
+
+            
         }
     }
+    */
 }
