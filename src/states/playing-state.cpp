@@ -60,6 +60,7 @@ void PlayingState::BubblePopulation(){
             _bubbleIndex++;
         }
 }
+
 void PlayingState::verifyCliffs(Cliff &cliff){
 
         sf::Rect<float> cliffBound = cliff.getBoundingRect();
@@ -72,11 +73,15 @@ void PlayingState::verifyCliffs(Cliff &cliff){
 
                 std::vector<float> _cliffPos;
                 float desplacement = ((rand() % 2 == 0) ? 1 : -1)*targetBound.height+100;
-                _cliffPos = {cliff.getPosition().x, cliff.getPosition().y+desplacement};
+                _cliffPos = {cliff.getPosition().x, cliff.getPosition().y-desplacement};
 
                 cliff.setPosition(_cliffPos.at(0), _cliffPos.at(1));
                 verifyCliffs(cliff);
     }}}
+
+void PlayingState::scaleCliffs(float x, float y, Cliff* cliff){
+    cliff->scaleCliff(x, y);
+}    
 
 void PlayingState::verifySpace(Cliff &cliff){
     // verifys if there is space for the diver to pass through the cliffs
@@ -85,43 +90,37 @@ void PlayingState::verifySpace(Cliff &cliff){
         
         float diverWidth = 80;
 
-
         for (int j=0; j< _cliffs.size(); j++){
-        
             sf::Rect<float> targetBound = _cliffs.at(j)->getBoundingRect();
-
             if (cliffBound.top<=targetBound.top && cliffBound.top>=targetBound.top-targetBound.height){
 
                 if (cliffBound.width+targetBound.width+diverWidth>=DiveUp::SCREEN_WIDTH){
-                    
 
-                    float difference = cliffBound.width+targetBound.width+diverWidth-DiveUp::SCREEN_WIDTH;
-                    if (cliff.getPosition().x>0){
-                    
-                        cliff.setPosition(cliff.getPosition().x-difference+8, cliff.getPosition().y);}
-                    else if (cliff.getPosition().x==0){
-                    
-                        cliff.setPosition(cliff.getPosition().x+difference-8, cliff.getPosition().y);
-                    }
-
+                    std::cout << "cliff width antes rescale: " << cliffBound.width << std::endl;
+                   // cliff.scale(cliffBound.width-cliffBound.width*0.15, cliffBound.height);
+                    scaleCliffs(cliffBound.width-cliffBound.width*0.15, cliffBound.height, &cliff);
+                    std::cout << "cliff width depois rescale: " << cliffBound.width << std::endl;
+                    verifySpace(cliff);
+                   
 }}}}
 
 
 void PlayingState::generateCliffs(std::vector<Cliff*> cliffs){
 
-    _cliffsMax = 20;
+    _cliffsMax = 30;
     for (int i=0; i< _cliffsMax ;i++){
+        
 
         //generate random position for cliffs
         std::random_device rd;
         std::mt19937 gen(rd());
 
-        std::normal_distribution<float> ypos(100, 100);
+        std::normal_distribution<float> ypos(0, 50);
         std::normal_distribution<float> size(100, 50);
 
         float direction = (rand() % 2 == 0);
         float altura = ypos(gen);
-        std::cout << "altura: " << altura << std::endl;
+        
         std::vector<float> _cliffPos= {direction*DiveUp::SCREEN_WIDTH,altura};
 
         //generate size for cliffs
@@ -138,6 +137,7 @@ void PlayingState::generateCliffs(std::vector<Cliff*> cliffs){
         if (i > 0){
             verifyCliffs(*cliff); 
             verifySpace(*cliff);}
+    
 
         _cliffs.push_back(cliff);
 

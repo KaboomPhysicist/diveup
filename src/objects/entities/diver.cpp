@@ -1,6 +1,6 @@
 #include "objects/entities/diver.h"
 
-Diver::Diver(float constraintLeft, float constraintRight) : VisibleObject("assets/diver-right.png") {
+Diver::Diver(float constraintLeft, float constraintRight) : VisibleObject("assets/stand-diver1.png") {
     _constraintLeft = constraintLeft;
     _constraintRight = constraintRight;
 
@@ -31,7 +31,7 @@ void Diver::handleInput(sf::Event *event) {
         }
     } else if (event->type == sf::Event::KeyReleased) {
             _direction = NONE;
-            this->Set_texture("assets/stand-diver.png");
+            this->Set_texture("assets/stand-diver1.png");
         }
     }
 

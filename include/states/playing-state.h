@@ -23,6 +23,7 @@ class PlayingState : public GameState{
         void generateCliffs(std::vector<Cliff*> cliffs);
         void verifyCliffs(Cliff&);
         void verifySpace(Cliff&);
+        void scaleCliffs(float, float,Cliff*);
 
 
     private:

@@ -8,6 +8,9 @@ public:
     Cliff(int,int,float);
     void update(float timeElapsed);
     void handleInput(sf::Event *event);
+    void scaleCliff(float, float);
+
+    void collideWith(VisibleObject *target);
 
     private:
         float velocity;

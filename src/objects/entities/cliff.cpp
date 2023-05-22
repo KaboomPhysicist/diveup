@@ -16,7 +16,7 @@ Cliff::Cliff(int sizex, int sizey,float dir) : VisibleObject("assets/cliff1.png"
     }
 
     
-    velocity = 30.0f;
+    velocity = 50.0f;
 }
 
 void Cliff::update(float timeElapsed) { 
@@ -24,6 +24,13 @@ void Cliff::update(float timeElapsed) {
     move(0, velocity * timeElapsed);
 }
 
+void Cliff::scaleCliff(float x, float y) {
+    sf::Vector2f targetSize(x, y); 
+    this->_sprite.setScale(
+                            targetSize.x / this->_sprite.getLocalBounds().width, 
+                            targetSize.y / this->_sprite.getLocalBounds().height
+                            );
+}
 
 void Cliff::handleInput(sf::Event *event){
 
