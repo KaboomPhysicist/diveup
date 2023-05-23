@@ -21,7 +21,7 @@ class PlayingState : public GameState{
         ~PlayingState() override;
         
 
-        void generateCliffs(std::vector<Cliff*> cliffs);
+        void generateCliffs(std::vector<Cliff*> cliffs,float,int);
         void verifyCliffs(Cliff&);
         void verifySpace(Cliff&);
         void scaleCliffs(float, float,Cliff*);
@@ -30,7 +30,7 @@ class PlayingState : public GameState{
     private:
         float velocity;
         std::vector<Cliff*> _cliffs;
-        int _cliffsMax;
+        //int _cliffsMax;
         
         short int _bubbleMax;
         std::vector<Bubble*> _bubbles;
