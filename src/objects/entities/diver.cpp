@@ -1,6 +1,6 @@
 #include "objects/entities/diver.h"
 
-Diver::Diver(float constraintLeft, float constraintRight) : VisibleObject("assets/stand-diver1.png") {
+Diver::Diver(float constraintLeft, float constraintRight) : VisibleObject("assets/stand-diver3.png") {
     _constraintLeft = constraintLeft;
     _constraintRight = constraintRight;
 
