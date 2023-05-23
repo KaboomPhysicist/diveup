@@ -3,7 +3,6 @@
 
 void PlayingState::init() {
     newLevel();
-    
 }
 
 void PlayingState::handleInput(sf::Event *event) {
@@ -63,22 +62,25 @@ void PlayingState::verifySpace(Cliff &cliff){
 
         for (int j=0; j< _cliffs.size(); j++){
             sf::Rect<float> targetBound = _cliffs.at(j)->getBoundingRect();
-            if (cliffBound.top<=targetBound.top && cliffBound.top>=targetBound.top-targetBound.height){
+
+            if (cliffBound.top>=targetBound.top && cliffBound.top+cliffBound.height<=targetBound.top+targetBound.height
+                ||cliffBound.top>=targetBound.top && cliffBound.top+cliffBound.height>=targetBound.top+targetBound.height
+                ||targetBound.top>=cliffBound.top && targetBound.top+targetBound.height<=cliffBound.top+cliffBound.height
+                ||targetBound.top>=cliffBound.top && targetBound.top+targetBound.height>=cliffBound.top+cliffBound.height){
 
                 if (cliffBound.width+targetBound.width+diverWidth>=DiveUp::SCREEN_WIDTH){
 
-                    std::cout << "cliff width antes rescale: " << cliffBound.width << std::endl;
-                   // cliff.scale(cliffBound.width-cliffBound.width*0.15, cliffBound.height);
-                    scaleCliffs(cliffBound.width-cliffBound.width*0.15, cliffBound.height, &cliff);
-                    std::cout << "cliff width depois rescale: " << cliffBound.width << std::endl;
+                    // resize the cliff to 10% of its original size
+                    scaleCliffs(cliffBound.width-cliffBound.width*0.1, cliffBound.height, &cliff);
+                    //sf::Rect<float> cliffBound = cliff.getBoundingRect();
                     verifySpace(cliff);
                    
 }}}}
 
 
-void PlayingState::generateCliffs(std::vector<Cliff*> cliffs){
+void PlayingState::generateCliffs(std::vector<Cliff*> cliffs,float velocity,int cliffsMax){
 
-    _cliffsMax = 30;
+    int _cliffsMax = cliffsMax;
     for (int i=0; i< _cliffsMax ;i++){
         
 
@@ -100,7 +102,7 @@ void PlayingState::generateCliffs(std::vector<Cliff*> cliffs){
 
         //std::cout << "size: " << sizex << " " << sizey << std::endl;
 
-        Cliff *cliff = new Cliff(sizex,sizey,direction);
+        Cliff *cliff = new Cliff(sizex,sizey,direction,velocity);
         cliff->setPosition(_cliffPos.at(0), _cliffPos.at(1));
 
         // verify if the cliff does not intersect with another cliff
@@ -113,13 +115,15 @@ void PlayingState::generateCliffs(std::vector<Cliff*> cliffs){
         _cliffs.push_back(cliff);
 
     }
+    //the lowest cliff must be over 500, so let's move all cliffs up
+    for (Cliff *i : _cliffs){ i->setPosition(i->getPosition().x, i->getPosition().y-500); }
 }
 
 void PlayingState::newLevel(){
     Field *field = new Field();
     Diver *diver1 = new Diver(0,400);
 
-    diver1->setPosition(100, 550);
+    diver1->setPosition(100, 600);
     sf::Rect<float> diverBound = diver1->getBoundingRect();
     std::cout<<"diver width: "<<diverBound.width<<std::endl;
 
@@ -127,7 +131,7 @@ void PlayingState::newLevel(){
     field->setPriority(0);
     diver1->setPriority(2);
 
-    generateCliffs(_cliffs);
+    generateCliffs(_cliffs,70,20);
 
     _bubbleMax = 15;
     _bubbles = std::vector<Bubble*>(_bubbleMax);

@@ -1,7 +1,7 @@
 #include "objects/entities/cliff.h"
 #include "diveup.h"
 
-Cliff::Cliff(int sizex, int sizey,float dir) : VisibleObject("assets/cliff1.png") { 
+Cliff::Cliff(int sizex, int sizey,float dir,float speed) : VisibleObject("assets/cliff1.png") { 
     sf::Vector2f targetSize(sizex, sizey); 
     if (dir == 1.0f) {
         this->_sprite.setScale(
@@ -16,7 +16,7 @@ Cliff::Cliff(int sizex, int sizey,float dir) : VisibleObject("assets/cliff1.png"
     }
 
     
-    velocity = 50.0f;
+    velocity = speed;
 }
 
 
