@@ -26,6 +26,7 @@ set(SOURCES src/main.cpp
             src/objects/entities/field.cpp
             src/objects/entities/diver.cpp
             src/objects/entities/cliff.cpp
+            src/objects/entities/finishline.cpp
             lib/collision.cpp
 )
 

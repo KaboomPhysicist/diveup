@@ -117,6 +117,7 @@ void PlayingState::generateCliffs(std::vector<Cliff*> cliffs,float velocity,int 
     }
     //the lowest cliff must be over 500, so let's move all cliffs up
     for (Cliff *i : _cliffs){ i->setPosition(i->getPosition().x, i->getPosition().y-500); }
+
 }
 
 void PlayingState::newLevel(){
@@ -150,6 +151,17 @@ void PlayingState::newLevel(){
         visibleObjectManager.add("cliff" + std::to_string(i), _cliffs.at(i));
         _cliffs.at(i)->setPriority(1);
     }
+
+
+    // Generate EndLine based on the top position of the last cliff
+
+    sf::Rect<float> lastCliffBound = _cliffs.at(_cliffs.size()-1)->getBoundingRect();
+    float finishPosition = lastCliffBound.top-100;
+
+    FinishLine *finishline = new FinishLine(finishPosition);
+    finishline->setPriority(1);
+
+    visibleObjectManager.add("finishline", finishline);
 }
 
 PlayingState::~PlayingState() { }

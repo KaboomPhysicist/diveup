@@ -5,6 +5,7 @@
 #include "objects/entities/diver.h"
 #include "objects/entities/cliff.h"
 #include "objects/entities/bubble.h"
+#include "objects/entities/finishline.h"
 #include "diveup.h"
 #include <random>
 
@@ -38,4 +39,5 @@ class PlayingState : public GameState{
         float _ascendingSpeed;
         short int _level;
         sf::Rect<float> bubble_constraints;
+        FinishLine *finishline;
 };

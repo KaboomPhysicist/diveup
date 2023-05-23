@@ -45,9 +45,9 @@ void VisibleObjectManager::updateAll(float timeElapsed) {
     itr++;
   }  // Detect collision by bounding rect.
   auto originItr = _objects.begin();  while (originItr != _objects.end()) {
-    sf::Rect<float> originBound = originItr->second->getBoundingRect();
-    auto targetItr = _objects.begin();    while (targetItr != _objects.end()) {
-      if (targetItr == originItr) { targetItr++; continue; }
+  sf::Rect<float> originBound = originItr->second->getBoundingRect();
+  auto targetItr = _objects.begin();    while (targetItr != _objects.end()) {
+    if (targetItr == originItr) { targetItr++; continue; }
       
       /*sf::Rect<float> targetBound = targetItr->second->getBoundingRect();      
       if (originBound.intersects(targetBound)) {
@@ -61,7 +61,6 @@ void VisibleObjectManager::updateAll(float timeElapsed) {
           //std::cout << "Origin: " << originItr->first << std::endl;
           //std::cout << "Target: " << targetItr->first << std::endl;
       }
-
 
       targetItr++;
     }
@@ -79,6 +78,7 @@ void VisibleObjectManager::drawAll(sf::RenderWindow *window) {
   while (itr != _objects.end()) {
     //std::cout << "Object " << itr->first << " added to the ordered list" << std::endl;
     _orderedObjects->insert(std::make_pair(itr->second->getPriority(), itr->second));
+    
     itr++;
   }
 
