@@ -22,6 +22,8 @@ void DiveUp::start()
     _stateInstances[Playing]->init();
     _stateInstances[Gameover] = new gameoverState();
     _stateInstances[Gameover]->init();
+    _stateInstances[NextLevel] = new NextLevelState();
+    _stateInstances[NextLevel]->init(); 
 
     // Set the initial state in Splashscreen
     _state = Splashscreen;

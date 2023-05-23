@@ -2,37 +2,8 @@
 #include "diveup.h"
 
 void PlayingState::init() {
-
-    Field *field = new Field();
-    Diver *diver1 = new Diver(0,400);
-
-    diver1->setPosition(100, 550);
-    sf::Rect<float> diverBound = diver1->getBoundingRect();
-    std::cout<<"diver width: "<<diverBound.width<<std::endl;
-
+    newLevel();
     
-    field->setPriority(0);
-    diver1->setPriority(2);
-
-    generateCliffs(_cliffs);
-
-    _bubbleMax = 15;
-    _bubbles = std::vector<Bubble*>(_bubbleMax);
-
-    _ascendingSpeed = 200;
-
-    std::vector SCREEN_RANGE = {0, DiveUp::SCREEN_WIDTH, 0, DiveUp::SCREEN_HEIGHT};
-    bubble_constraints = {0, -DiveUp::SCREEN_HEIGHT, DiveUp::SCREEN_WIDTH, 2*DiveUp::SCREEN_HEIGHT};
-
-    Bubbles::initBubbles(_bubbleMax, 30, _ascendingSpeed, bubble_constraints, SCREEN_RANGE, this->_bubbles, visibleObjectManager);
-
-    visibleObjectManager.add("field", field);
-    visibleObjectManager.add("diver1", diver1);
-
-    for (int i = 0; i < _cliffs.size(); i++){
-        visibleObjectManager.add("cliff" + std::to_string(i), _cliffs.at(i));
-        _cliffs.at(i)->setPriority(1);
-    }
 }
 
 void PlayingState::handleInput(sf::Event *event) {
@@ -144,5 +115,37 @@ void PlayingState::generateCliffs(std::vector<Cliff*> cliffs){
     }
 }
 
+void PlayingState::newLevel(){
+    Field *field = new Field();
+    Diver *diver1 = new Diver(0,400);
+
+    diver1->setPosition(100, 550);
+    sf::Rect<float> diverBound = diver1->getBoundingRect();
+    std::cout<<"diver width: "<<diverBound.width<<std::endl;
+
+    
+    field->setPriority(0);
+    diver1->setPriority(2);
+
+    generateCliffs(_cliffs);
+
+    _bubbleMax = 15;
+    _bubbles = std::vector<Bubble*>(_bubbleMax);
+
+    _ascendingSpeed = 200;
+
+    std::vector SCREEN_RANGE = {0, DiveUp::SCREEN_WIDTH, 0, DiveUp::SCREEN_HEIGHT};
+    bubble_constraints = {0, -DiveUp::SCREEN_HEIGHT, DiveUp::SCREEN_WIDTH, 2*DiveUp::SCREEN_HEIGHT};
+
+    Bubbles::initBubbles(_bubbleMax, 30, _ascendingSpeed, bubble_constraints, SCREEN_RANGE, this->_bubbles, visibleObjectManager);
+
+    visibleObjectManager.add("field", field);
+    visibleObjectManager.add("diver1", diver1);
+
+    for (int i = 0; i < _cliffs.size(); i++){
+        visibleObjectManager.add("cliff" + std::to_string(i), _cliffs.at(i));
+        _cliffs.at(i)->setPriority(1);
+    }
+}
 
 PlayingState::~PlayingState() { }

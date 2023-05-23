@@ -6,7 +6,7 @@
 #include "states/splashscreen-state.h"
 #include "states/playing-state.h"
 #include "states/gameover-state.h"
-
+#include "states/nextlevel-state.h"
 
 class DiveUp
 {
@@ -16,7 +16,7 @@ class DiveUp
         static void start();
         static void gameLoop();
 
-        enum State {Uninitialized, Splashscreen, Playing, Gameover, Exiting};
+        enum State {Uninitialized, Splashscreen, Playing, NextLevel, Gameover, Exiting};
         static void setState(State s);
         static GameState *getState();
 

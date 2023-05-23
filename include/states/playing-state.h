@@ -20,6 +20,7 @@ class PlayingState : public GameState{
         //void scroll(float x, float y) override;
         ~PlayingState() override;
         
+        void newLevel();
 
         void generateCliffs(std::vector<Cliff*> cliffs);
         void verifyCliffs(Cliff&);
