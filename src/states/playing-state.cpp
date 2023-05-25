@@ -11,7 +11,7 @@ void PlayingState::handleInput(sf::Event *event) {
 
 void PlayingState::update(float timeElapsed) { 
     BubblePopulation();
-    std::cout << _cliffs.at(_cliffs.size()-1)->getBoundingRect().top << std::endl;
+    //std::cout << _cliffs.at(_cliffs.size()-1)->getBoundingRect().top << std::endl;
 
     if(finishline->getPosition().y > -DiveUp::SCREEN_HEIGHT){
         if(finishline->getPosition().y < 0){
@@ -31,6 +31,8 @@ void PlayingState::update(float timeElapsed) {
         finishline->setFinishing(true);
         diver1->setFinishing(true);
     } 
+
+    opacityupdate(diver1->getOxygen());
 
     visibleObjectManager.updateAll(timeElapsed);
 }
@@ -156,6 +158,45 @@ void PlayingState::airmarker(int x,int y,float air ){
     }   
 } 
 
+void PlayingState::opacityupdate(int oxigenoquememuero){
+    //update opacity of air markers
+    //std::cout<<"oxigenoquememuero" << oxigenoquememuero << std::endl;
+
+    for (int i = 0; i < 5; i++) {
+        _aircounters.at(i)->setOpacity(20);
+    }
+
+    for (int i=0; i< 5 ;i++){
+        _aircounters.at(i)->setOpacity(20);
+    }
+    if (oxigenoquememuero<100 && oxigenoquememuero>80){
+        _aircounters.at(4)->setOpacity(100-oxigenoquememuero);
+    }
+    if (oxigenoquememuero<80 && oxigenoquememuero>60){
+        _aircounters.at(4)->setOpacity(0);
+        _aircounters.at(3)->setOpacity(80-oxigenoquememuero);
+    }
+    if (oxigenoquememuero<60 && oxigenoquememuero>40){
+        _aircounters.at(4)->setOpacity(0);
+        _aircounters.at(3)->setOpacity(0);
+        _aircounters.at(2)->setOpacity(60-oxigenoquememuero);
+    }
+    if (oxigenoquememuero<40 && oxigenoquememuero>20){
+        _aircounters.at(4)->setOpacity(0);
+        _aircounters.at(3)->setOpacity(0);
+        _aircounters.at(2)->setOpacity(0);
+        _aircounters.at(1)->setOpacity(40-oxigenoquememuero);
+    }
+    if (oxigenoquememuero<20 && oxigenoquememuero>0){
+        _aircounters.at(4)->setOpacity(0);
+        _aircounters.at(3)->setOpacity(0);
+        _aircounters.at(2)->setOpacity(0);
+        _aircounters.at(1)->setOpacity(0);
+        _aircounters.at(0)->setOpacity(20-oxigenoquememuero);
+    }
+
+
+}
 
 void PlayingState::newLevel(){
 
@@ -163,9 +204,6 @@ void PlayingState::newLevel(){
     diver1 = new Diver(0,400);
 
     diver1->setFinishing(false);
-
-
-
     diver1->setPosition(100, 600);
 
     sf::Rect<float> diverBound = diver1->getBoundingRect();
@@ -196,12 +234,11 @@ void PlayingState::newLevel(){
         visibleObjectManager.add("cliff" + std::to_string(i), _cliffs.at(i));
         _cliffs.at(i)->setPriority(1);
     }
-    for (int i=0; i< _aircounters.size(); i++){
+
+    for (int i = 0; i < _aircounters.size(); i++){
         visibleObjectManager.add("aircounter" + std::to_string(i), _aircounters.at(i));
         _aircounters.at(i)->setPriority(2);
     }
-
-
     SCREEN_RANGE = {0, DiveUp::SCREEN_WIDTH, -DiveUp::SCREEN_HEIGHT, 0};
 
     // Generate EndLine based on the top position of the last cliff

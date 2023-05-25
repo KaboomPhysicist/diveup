@@ -42,6 +42,7 @@ float Diver::getOxygen() {
     return _oxygen;}
     
 void Diver::update(float timeElapsed) {
+    //std::cout<<"timeElapsed: "<<timeElapsed<<std::endl;
 
 
     float x_velocity = 0.0f;
@@ -56,6 +57,8 @@ void Diver::update(float timeElapsed) {
         y_velocity = -300;
     }
     else y_velocity = 0;
+
+    _oxygen -= timeElapsed*2;
     
 
 
@@ -71,7 +74,7 @@ void Diver::update(float timeElapsed) {
 void Diver::collideWith(VisibleObject *target){
     if(!dynamic_cast<Bubble*>(target)) return;
 
-    _oxygen += 1;
+    _oxygen += 5;
     std::cout << "Oxygen: " << _oxygen << std::endl;
 
 }

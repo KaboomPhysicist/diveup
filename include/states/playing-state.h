@@ -24,6 +24,7 @@ class PlayingState : public GameState{
         
         void newLevel();
         void airmarker(int, int,float);
+        void opacityupdate(int);
 
         void generateCliffs(std::vector<Cliff*> cliffs,float,int);
         void verifyCliffs(Cliff&);
