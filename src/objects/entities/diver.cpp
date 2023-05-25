@@ -1,6 +1,6 @@
 #include "objects/entities/diver.h"
 
-Diver::Diver(float constraintLeft, float constraintRight) : VisibleObject("assets/stand-diver1.png") {
+Diver::Diver(float constraintLeft, float constraintRight) : VisibleObject("assets/stand-diver2.png") {
     _constraintLeft = constraintLeft;
     _constraintRight = constraintRight;
 
@@ -8,6 +8,8 @@ Diver::Diver(float constraintLeft, float constraintRight) : VisibleObject("asset
     this->_sprite.setScale(
                             targetSize.x / this->_sprite.getLocalBounds().width, 
                             targetSize.y / this->_sprite.getLocalBounds().height);
+
+    _oxygen = 10;
 }
 
 void Diver::Set_texture(std::string textureFilename) {
@@ -31,11 +33,14 @@ void Diver::handleInput(sf::Event *event) {
         }
     } else if (event->type == sf::Event::KeyReleased) {
             _direction = NONE;
-            this->Set_texture("assets/stand-diver1.png");
+            this->Set_texture("assets/stand-diver2.png");
         }
     }
 
 
+float Diver::getOxygen() {
+    return _oxygen;}
+    
 void Diver::update(float timeElapsed) {
 
 
@@ -59,7 +64,7 @@ void Diver::update(float timeElapsed) {
 void Diver::collideWith(VisibleObject *target){
     if(!dynamic_cast<Bubble*>(target)) return;
 
-    //std::cout << "Oxygen for you" << std::endl;
-    _oxygen += 10;
+    _oxygen += 1;
+    std::cout << "Oxygen: " << _oxygen << std::endl;
 
 }

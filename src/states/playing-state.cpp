@@ -120,11 +120,30 @@ void PlayingState::generateCliffs(std::vector<Cliff*> cliffs,float velocity,int 
 
 }
 
+void PlayingState::airmarker(int x,int y,float air ){
+    //generate air markers
+    
+    float position = 10;
+    for (int i=0; i< 5 ;i++){
+        AirCounter *airmarker = new AirCounter(x,y,air);
+        sf::Rect<float> aircounterbound = airmarker->getBoundingRect();
+        
+        airmarker->setPosition(position, 20);
+        position += aircounterbound.width;
+        airmarker->setPriority(2);
+        _aircounters.push_back(airmarker);
+
+    }   
+} 
+
+
 void PlayingState::newLevel(){
     Field *field = new Field();
     Diver *diver1 = new Diver(0,400);
 
+
     diver1->setPosition(100, 600);
+
     sf::Rect<float> diverBound = diver1->getBoundingRect();
     std::cout<<"diver width: "<<diverBound.width<<std::endl;
 
@@ -133,6 +152,7 @@ void PlayingState::newLevel(){
     diver1->setPriority(2);
 
     generateCliffs(_cliffs,70,20);
+    airmarker(50,50,diver1->getOxygen());
 
     _bubbleMax = 15;
     _bubbles = std::vector<Bubble*>(_bubbleMax);
@@ -151,6 +171,11 @@ void PlayingState::newLevel(){
         visibleObjectManager.add("cliff" + std::to_string(i), _cliffs.at(i));
         _cliffs.at(i)->setPriority(1);
     }
+    for (int i=0; i< _aircounters.size(); i++){
+        visibleObjectManager.add("aircounter" + std::to_string(i), _aircounters.at(i));
+        _aircounters.at(i)->setPriority(2);
+    }
+
 
 
     // Generate EndLine based on the top position of the last cliff
