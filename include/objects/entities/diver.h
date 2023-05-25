@@ -23,5 +23,6 @@ class Diver : public VisibleObject {
         float _constraintLeft;
         float _constraintRight;
         bool _finishing;
+        float _oxygen;
         float y_velocity;
 };
