@@ -13,10 +13,12 @@ class Diver : public VisibleObject {
         void Set_texture(std::string textureFilename);
         void setFinishing(bool);
 
+        float getOxygen();
+        
 
     private:
         enum Direction { Left, Right ,NONE};
-
+        float _oxygen;
         Direction _direction = NONE;
         float _speed = 100.0f;
         float _constraintLeft;
@@ -24,6 +26,4 @@ class Diver : public VisibleObject {
         float _oxygen;
         bool _finishing;
         float y_velocity;
-
-
 };

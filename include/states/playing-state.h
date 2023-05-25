@@ -6,6 +6,7 @@
 #include "objects/entities/cliff.h"
 #include "objects/entities/bubble.h"
 #include "objects/entities/finishline.h"
+#include "objects/gui/aircounter.h"
 #include "diveup.h"
 #include <random>
 
@@ -22,6 +23,7 @@ class PlayingState : public GameState{
         ~PlayingState() override;
         
         void newLevel();
+        void airmarker(int, int,float);
 
         void generateCliffs(std::vector<Cliff*> cliffs,float,int);
         void verifyCliffs(Cliff&);
@@ -32,8 +34,10 @@ class PlayingState : public GameState{
     private:
         float velocity;
         std::vector<Cliff*> _cliffs;
-        //int _cliffsMax;
-        
+
+
+        std::vector<AirCounter*> _aircounters;
+
         short int _bubbleMax;
         std::vector<Bubble*> _bubbles;
         float _ascendingSpeed;

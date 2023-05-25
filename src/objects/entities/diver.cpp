@@ -8,6 +8,8 @@ Diver::Diver(float constraintLeft, float constraintRight) : VisibleObject("asset
     this->_sprite.setScale(
                             targetSize.x / this->_sprite.getLocalBounds().width, 
                             targetSize.y / this->_sprite.getLocalBounds().height);
+
+    _oxygen = 10;
 }
 
 void Diver::Set_texture(std::string textureFilename) {
@@ -36,6 +38,9 @@ void Diver::handleInput(sf::Event *event) {
     }
 
 
+float Diver::getOxygen() {
+    return _oxygen;}
+    
 void Diver::update(float timeElapsed) {
 
 
@@ -66,8 +71,8 @@ void Diver::update(float timeElapsed) {
 void Diver::collideWith(VisibleObject *target){
     if(!dynamic_cast<Bubble*>(target)) return;
 
-    //std::cout << "Oxygen for you" << std::endl;
-    _oxygen += 10;
+    _oxygen += 1;
+    std::cout << "Oxygen: " << _oxygen << std::endl;
 
 }
 

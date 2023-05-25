@@ -1,5 +1,4 @@
 #pragma once
-
 #include "objects/visible-object.h"
 
 class ExitButton : public VisibleObject {
