@@ -13,7 +13,7 @@ void FinishLine::collideWith(VisibleObject *target) {
 };
 
 void FinishLine::update(float timeElapsed) {
-    std::cout << "Line position:" << this->getPosition().y << std::endl;
+    //std::cout << "Line position:" << this->getPosition().y << std::endl;
     if(_finishing){
         this->move(0, 0);
     }

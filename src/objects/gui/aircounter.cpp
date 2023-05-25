@@ -13,20 +13,21 @@ AirCounter:: AirCounter(int x,int y,float Oxygen) : VisibleObject("assets/bubble
                             targetSize.y / this->_sprite.getLocalBounds().height);
 }
 void AirCounter::handleInput(sf::Event *event){}
-void AirCounter::update(float timeElapsed){
-    if(oxygen > 0){
-        if (oxygen = 100){
-            setOpacity(255);
-        }
-        else{
-            setOpacity(255*(oxygen/10));
-        }
+void AirCounter::update(float timeElapsed){}
 
+void AirCounter::setOpacity(int opacity){
+
+    if (opacity >= 20) {
+        opacity = 255;
+    } else if (opacity >= 15 && opacity <= 20) {
+        opacity = 255 * 0.5;
+    } else if (opacity >= 10 && opacity <= 15) {
+        opacity = 255 * 0.25;
+    } else if (opacity >= 5 && opacity <= 10) {
+        opacity = 255 * 0.125;
+    }else if (opacity >= 0 && opacity <= 5) {
+        opacity = 0;
     }
-    else{
-        DiveUp::setState(DiveUp::Gameover);
-    }
-}
-void AirCounter::setOpacity(int opasity){
-    _sprite.setColor(sf::Color(255,255,255,opasity));
+
+    _sprite.setColor(sf::Color(255,255,255,opacity));
 }

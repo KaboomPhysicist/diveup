@@ -22,7 +22,6 @@ class Diver : public VisibleObject {
         float _speed = 100.0f;
         float _constraintLeft;
         float _constraintRight;
-        float _oxygen;
         bool _finishing;
         float y_velocity;
 };
