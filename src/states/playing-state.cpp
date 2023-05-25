@@ -21,13 +21,15 @@ void PlayingState::update(float timeElapsed) {
         //std::cout << "Visible" << std::endl;
         SCREEN_RANGE = {0, DiveUp::SCREEN_WIDTH, DiveUp::SCREEN_HEIGHT, DiveUp::SCREEN_HEIGHT};
         }
-    bubble_constraints = {0, finishline->getPosition().y + 50 , DiveUp::SCREEN_WIDTH, DiveUp::SCREEN_HEIGHT};
+        bubble_constraints = {0, finishline->getPosition().y + 50 , DiveUp::SCREEN_WIDTH, DiveUp::SCREEN_HEIGHT};
 
     }
 
     if (finishline->getPosition().y > 200){
         _ascendingSpeed = 0;
-
+        for(Bubble* bubble : _bubbles){
+            bubble->setBias(0);
+        }
         finishline->setFinishing(true);
         diver1->setFinishing(true);
     } 
@@ -192,7 +194,13 @@ void PlayingState::newLevel(){
     visibleObjectManager.add("field", field);
     visibleObjectManager.add("diver1", diver1);
 
+    float finishPosition = 0;
+
     for (int i = 0; i < _cliffs.size(); i++){
+        if(finishPosition > _cliffs.at(i)->getBoundingRect().top){
+            finishPosition = _cliffs.at(i)->getBoundingRect().top;
+        }
+
         visibleObjectManager.add("cliff" + std::to_string(i), _cliffs.at(i));
         _cliffs.at(i)->setPriority(1);
     }
@@ -207,7 +215,7 @@ void PlayingState::newLevel(){
     // Generate EndLine based on the top position of the last cliff
 
     sf::Rect<float> lastCliffBound = _cliffs.at(_cliffs.size()-1)->getBoundingRect();
-    float finishPosition = lastCliffBound.top  - 100;
+    finishPosition = finishPosition - 800;
     //float finishPosition = 200;
 
     finishline = new FinishLine(finishPosition, _ascendingSpeed);
