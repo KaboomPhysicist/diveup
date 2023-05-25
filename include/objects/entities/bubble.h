@@ -12,6 +12,7 @@ class Bubble : public VisibleObject {
         void update(float timeElapsed);
         void collideWith(VisibleObject *target);
         bool isDead;
+        void setBias(float bias);
 
     private:
         float lifetime;

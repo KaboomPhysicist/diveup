@@ -74,6 +74,10 @@ float Bubble::xVelocity(){
     return sample;
 }
 
+void Bubble::setBias(float bias){
+    this->velocity_bias = bias;
+}
+
 void Bubble::collideWith(VisibleObject *target) {
     if(!dynamic_cast<Diver*>(target) and !dynamic_cast<Cliff*>(target)) return;
 

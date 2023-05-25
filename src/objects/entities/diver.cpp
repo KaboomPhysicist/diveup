@@ -53,7 +53,7 @@ void Diver::update(float timeElapsed) {
     }
 
     if(_finishing){
-        y_velocity = -300;
+        y_velocity = -400;
     }
     else y_velocity = 0;
     
