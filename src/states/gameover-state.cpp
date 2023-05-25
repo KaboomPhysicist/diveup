@@ -10,7 +10,7 @@ void gameoverState::init() {
     playagainButton->setPosition(95, 360);
     playagainButton->setPriority(1);
 
-    ExitButton *exitButton = new ExitButton();
+    ExitButton *exitButton = new ExitButton(sf::Vector2f(300,80));
     exitButton->setPosition(95, 460);
     exitButton->setPriority(1);
 

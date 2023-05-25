@@ -10,8 +10,6 @@
 #include "diveup.h"
 #include <random>
 
-
-
 class PlayingState : public GameState{
     public:
         void init() override;
@@ -19,11 +17,10 @@ class PlayingState : public GameState{
         void update(float timeElapsed) override;
         void draw(sf::RenderWindow *window) override;
         void BubblePopulation();
-        //void scroll(float x, float y) override;
         ~PlayingState() override;
         
         void newLevel();
-        void airmarker(int, int);
+        void initAirmarker(int, int);
         void opacityupdate(int);
 
         void generateCliffs(std::vector<Cliff*> cliffs,float,int);
@@ -31,18 +28,20 @@ class PlayingState : public GameState{
         void verifySpace(Cliff&);
         void scaleCliffs(float, float,Cliff*);
 
-
+        void reset();
+        void setEnded(bool);
+        void resetLevel();
     private:
         float velocity;
+
         std::vector<Cliff*> _cliffs;
-
-
         std::vector<AirCounter*> _aircounters;
+        std::vector<Bubble*> _bubbles;
 
         short int _bubbleMax;
-        std::vector<Bubble*> _bubbles;
         float _ascendingSpeed;
         short int _level;
+        bool _end;
         sf::Rect<float> bubble_constraints;
         Diver *diver1;
         FinishLine *finishline;

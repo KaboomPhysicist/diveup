@@ -12,7 +12,7 @@ void SplashscreenState::init() {
     newGameButton->setPosition(95, 360);
     newGameButton->setPriority(1);
 
-    ExitButton *exitButton = new ExitButton();
+    ExitButton *exitButton = new ExitButton(sf::Vector2f(300,80));
     exitButton->setPosition(95, 460);
     exitButton->setPriority(1);
 

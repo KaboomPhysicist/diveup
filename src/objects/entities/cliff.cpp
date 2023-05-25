@@ -24,6 +24,10 @@ void Cliff::collideWith(VisibleObject *target) {
     if(!dynamic_cast<Diver*>(target) ) return;
     
     std::cout << "Te diste un tiestaso" << std::endl;
+    update();
+    dynamic_cast<PlayingState*>(DiveUp::getState())->setEnded(true);
+    dynamic_cast<PlayingState*>(DiveUp::getState())->resetLevel();
+
     DiveUp::setState(DiveUp::Gameover);
 };
 

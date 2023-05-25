@@ -10,6 +10,7 @@ void PlayAgain::handleInput(sf::Event *event) {
 
         if (getBoundingRect().contains(x, y)){
             std::cout << "Play again Button Pressed" << std::endl;
+            
             DiveUp::setState(DiveUp::Splashscreen);
         }
     }

@@ -7,7 +7,6 @@
 #include "objects/gui/newgame-button.h"
 #include "objects/gui/exit-button.h"
 #include "objects/entities/bubble.h"
-
 class SplashscreenState : public GameState{
     public:
         void init() override;

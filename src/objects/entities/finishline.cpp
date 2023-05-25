@@ -1,5 +1,6 @@
 #include "objects/entities/finishline.h"
 #include "diveup.h"
+#include "states/playing-state.h"
 
 FinishLine::FinishLine(int position, float speed) : VisibleObject("assets/finishline.png") {
     this->setPosition(0, position);
@@ -9,6 +10,7 @@ FinishLine::FinishLine(int position, float speed) : VisibleObject("assets/finish
 void FinishLine::collideWith(VisibleObject *target) {
     if(!dynamic_cast<Diver*>(target) ) return;
     std::cout << "Llegaste a la meta" << std::endl;
+    dynamic_cast<PlayingState*>(DiveUp::getState())->setEnded(true);
     DiveUp::setState(DiveUp::NextLevel);
 };
 

@@ -30,7 +30,7 @@ void Bubble::update(float timeElapsed){
 
     lifetime += timeElapsed;
 
-    //Check for constraints
+    //Check for constraints (Screen visualization)
     if(getTop()<constraints.top || getBottom() > (constraints.top + constraints.height) || getLeft() < constraints.left || getRight() > (constraints.left + constraints.width)){
         this->isDead = true;
         //std::cout << "Bubble died" << std::endl;
@@ -43,11 +43,14 @@ void Bubble::update(float timeElapsed){
 }
 
 float Bubble::yVelocity(){
+    // Velocity based on terminal speed on a fluid
     float rho = 0.1;
     float g = 9.81;
     float A = 3.14*(this->size)*(this->size);
     float Cd = 0.47;
     float m = 1;
+
+    // The speed includes a bias corresponding to the ascending speed of the player
     float v = velocity_factor * std::sqrt(2 * m * g / (rho * A * Cd)) * std::tanh(lifetime * std::sqrt((rho * A * Cd * g) / (2 * m))) - velocity_bias;
 
     //std::cout << "Bubble velocity: " << v << std::endl;
@@ -58,6 +61,7 @@ float Bubble::yVelocity(){
 // Generates random velocity according to a normal distribution
 float Bubble::xVelocity(){
 
+    // Declares random objects for normal distribution
     std::random_device rd;
     std::mt19937 gen(rd());
 
@@ -75,10 +79,12 @@ float Bubble::xVelocity(){
 }
 
 void Bubble::setBias(float bias){
+    // Changes the bias velocity (used at the end of a level)
     this->velocity_bias = bias;
 }
 
 void Bubble::collideWith(VisibleObject *target) {
+    
     if(!dynamic_cast<Diver*>(target) and !dynamic_cast<Cliff*>(target)) return;
 
     //if(!dynamic_cast<Bubble*>(target)) return;
@@ -121,6 +127,7 @@ namespace Bubbles{
     }
 
     void initBubbles(short int bubbleMax, float velocity_factor, float velocity_bias, sf::Rect<float> constraints, std::vector<int> SCREEN_RANGE, std::vector <Bubble*>& _bubbles, VisibleObjectManager& visibleObjectManager){
+        std::cout << "Initializing Bubbles" << std::endl;
         for(int i=0; i<bubbleMax; i++){
             GenerateBubble(i, velocity_factor, velocity_bias, constraints, SCREEN_RANGE, _bubbles, visibleObjectManager);
         }

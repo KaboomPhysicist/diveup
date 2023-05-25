@@ -18,6 +18,7 @@ void VisibleObjectManager::add(std::string name, VisibleObject *object) {
 void VisibleObjectManager::remove(std::string name) {
     auto results = _objects.find(name);
     if (results != _objects.end()) {
+        //std::cout << results->first << " deleted" << std::endl;
         delete results->second;
         _objects.erase(results);
         //std::cout << "Object " << name << " removed" << std::endl;

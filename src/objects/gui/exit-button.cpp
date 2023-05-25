@@ -1,7 +1,11 @@
 #include "objects/gui/exit-button.h"
 #include "diveup.h"
 
-ExitButton :: ExitButton() : VisibleObject("assets/exit-btn.png"){}
+ExitButton :: ExitButton(sf::Vector2f targetSize) : VisibleObject("assets/exit-btn.png"){
+    this->_sprite.setScale(
+                            targetSize.x / this->_sprite.getLocalBounds().width, 
+                            targetSize.y / this->_sprite.getLocalBounds().height);
+}
 
 void ExitButton::handleInput(sf::Event *event) {
     if (event->type == sf::Event::MouseButtonPressed) {

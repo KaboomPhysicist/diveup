@@ -2,6 +2,8 @@
 #include "diveup.h"
 
 void PlayingState::init() {
+    _level = 0;
+    initAirmarker(50,50);
     newLevel();
 }
 
@@ -10,8 +12,8 @@ void PlayingState::handleInput(sf::Event *event) {
 }
 
 void PlayingState::update(float timeElapsed) { 
-    BubblePopulation();
-    //std::cout << _cliffs.at(_cliffs.size()-1)->getBoundingRect().top << std::endl;
+  
+    if(_end) reset(); 
 
     if(finishline->getPosition().y > -DiveUp::SCREEN_HEIGHT){
         if(finishline->getPosition().y < 0){
@@ -24,6 +26,8 @@ void PlayingState::update(float timeElapsed) {
         bubble_constraints = {0, finishline->getPosition().y + 50 , DiveUp::SCREEN_WIDTH, DiveUp::SCREEN_HEIGHT};
 
     }
+
+    BubblePopulation();
 
     if (finishline->getPosition().y > 200){
         _ascendingSpeed = 0;
@@ -39,70 +43,91 @@ void PlayingState::update(float timeElapsed) {
     visibleObjectManager.updateAll(timeElapsed);
 }
 
+void PlayingState::reset(){
+    //std::cout << "Reseting..." << std::endl;
+    visibleObjectManager.remove("diver1");
+    visibleObjectManager.remove("finishline");
+
+    for (int i = 0; i < _cliffs.size(); i++){
+        visibleObjectManager.remove("cliff" + std::to_string(i));
+    }
+
+    for (int i=0; i < _bubbles.size(); i++){
+        visibleObjectManager.remove("bubble" + std::to_string(i));
+
+    }
+
+    _level++;
+    setEnded(false);
+    newLevel();
+}
+
 void PlayingState::draw(sf::RenderWindow *window) { 
     visibleObjectManager.drawAll(window);
 }
 
 void PlayingState::BubblePopulation(){
-        short int _bubbleIndex = 0;
+    short int _bubbleIndex = 0;
 
-        for(Bubble* bubble : _bubbles){
-            if(bubble->isDead){
-                visibleObjectManager.remove("bubble" + std::to_string(_bubbleIndex));
-                Bubbles::GenerateBubble(_bubbleIndex, 30, _ascendingSpeed, bubble_constraints, SCREEN_RANGE, _bubbles, visibleObjectManager);
-            }
-            _bubbleIndex++;
+    for(Bubble* bubble : _bubbles){
+        if(bubble->isDead){
+            visibleObjectManager.remove("bubble" + std::to_string(_bubbleIndex));
+            Bubbles::GenerateBubble(_bubbleIndex, 30, _ascendingSpeed, bubble_constraints, SCREEN_RANGE, _bubbles, visibleObjectManager);
         }
+        _bubbleIndex++;
+    }
 }
 
 void PlayingState::verifyCliffs(Cliff &cliff){
 
-        sf::Rect<float> cliffBound = cliff.getBoundingRect();
+    sf::Rect<float> cliffBound = cliff.getBoundingRect();
 
-        //verify if cliff is colliding with another cliff    
-        for (int j=0; j< _cliffs.size(); j++){
-        
-            sf::Rect<float> targetBound = _cliffs.at(j)->getBoundingRect();
-            if (cliffBound.intersects(targetBound)) {
+    //verify if cliff is colliding with another cliff    
+    for (int j=0; j< _cliffs.size(); j++){
+        sf::Rect<float> targetBound = _cliffs.at(j)->getBoundingRect();
+        if (cliffBound.intersects(targetBound)){
+            std::cout << j << std::endl;
+            std::vector<float> _cliffPos;
+            float desplacement = ((rand() % 2 == 0) ? 1 : -1)*targetBound.height+100;
+            _cliffPos = {cliff.getPosition().x, cliff.getPosition().y-desplacement};
 
-                std::vector<float> _cliffPos;
-                float desplacement = ((rand() % 2 == 0) ? 1 : -1)*targetBound.height+100;
-                _cliffPos = {cliff.getPosition().x, cliff.getPosition().y-desplacement};
-
-                cliff.setPosition(_cliffPos.at(0), _cliffPos.at(1));
-                verifyCliffs(cliff);
-    }}}
+            cliff.setPosition(_cliffPos.at(0), _cliffPos.at(1));
+            verifyCliffs(cliff);
+}}}
 
 void PlayingState::scaleCliffs(float x, float y, Cliff* cliff){
     cliff->scaleCliff(x, y);
 }    
 
 void PlayingState::verifySpace(Cliff &cliff){
-    // verifys if there is space for the diver to pass through the cliffs
+// verify if there is space for the diver to pass through the cliffs
 
-        sf::Rect<float> cliffBound = cliff.getBoundingRect();
-        
-        float diverWidth = 80;
+    sf::Rect<float> cliffBound = cliff.getBoundingRect();
+    
+    float diverWidth = 80;
 
-        for (int j=0; j< _cliffs.size(); j++){
-            sf::Rect<float> targetBound = _cliffs.at(j)->getBoundingRect();
+    for (int j=0; j< _cliffs.size(); j++){
+        sf::Rect<float> targetBound = _cliffs.at(j)->getBoundingRect();
 
-            if (cliffBound.top>=targetBound.top && cliffBound.top+cliffBound.height<=targetBound.top+targetBound.height
-                ||cliffBound.top>=targetBound.top && cliffBound.top+cliffBound.height>=targetBound.top+targetBound.height
-                ||targetBound.top>=cliffBound.top && targetBound.top+targetBound.height<=cliffBound.top+cliffBound.height
-                ||targetBound.top>=cliffBound.top && targetBound.top+targetBound.height>=cliffBound.top+cliffBound.height){
+        if (cliffBound.top>=targetBound.top && cliffBound.top+cliffBound.height<=targetBound.top+targetBound.height
+            ||cliffBound.top>=targetBound.top && cliffBound.top+cliffBound.height>=targetBound.top+targetBound.height
+            ||targetBound.top>=cliffBound.top && targetBound.top+targetBound.height<=cliffBound.top+cliffBound.height
+            ||targetBound.top>=cliffBound.top && targetBound.top+targetBound.height>=cliffBound.top+cliffBound.height){
 
-                if (cliffBound.width+targetBound.width+diverWidth>=DiveUp::SCREEN_WIDTH){
+            if (cliffBound.width+targetBound.width+diverWidth>=DiveUp::SCREEN_WIDTH){
 
-                    // resize the cliff to 10% of its original size
-                    scaleCliffs(cliffBound.width-cliffBound.width*0.1, cliffBound.height, &cliff);
-                    //sf::Rect<float> cliffBound = cliff.getBoundingRect();
-                    verifySpace(cliff);
-                   
+                // resize the cliff to 10% of its original size
+                
+                scaleCliffs(cliffBound.width-cliffBound.width*0.1, cliffBound.height, &cliff);
+                //sf::Rect<float> cliffBound = cliff.getBoundingRect();
+                verifySpace(cliff);
+                
 }}}}
 
 
 void PlayingState::generateCliffs(std::vector<Cliff*> cliffs,float velocity,int cliffsMax){
+
+    std::cout << "Generating Cliffs" << std::endl;
 
     int _cliffsMax = cliffsMax;
     for (int i=0; i< _cliffsMax ;i++){
@@ -126,6 +151,7 @@ void PlayingState::generateCliffs(std::vector<Cliff*> cliffs,float velocity,int 
 
         //std::cout << "size: " << sizex << " " << sizey << std::endl;
 
+
         Cliff *cliff = new Cliff(sizex,sizey,direction,velocity);
         cliff->setPosition(_cliffPos.at(0), _cliffPos.at(1));
 
@@ -144,7 +170,7 @@ void PlayingState::generateCliffs(std::vector<Cliff*> cliffs,float velocity,int 
 
 }
 
-void PlayingState::airmarker(int x,int y ){
+void PlayingState::initAirmarker(int x,int y ){
     //generate air markers
     
     float position = 10;
@@ -201,11 +227,16 @@ switch (oxigenoquememuero) {
         _aircounters.at(0)->setOpacity(20 - oxigenoquememuero);
         break;
     case 0:
-     DiveUp::setState(DiveUp::Gameover);
+    std::cout << "Muerte por asfixia" << std::endl;
+    setEnded(true);
+    resetLevel();
+    DiveUp::setState(DiveUp::Gameover);
 }
 }
 
 void PlayingState::newLevel(){
+
+    std::cout << "Generando nuevo nivel" << std::endl;
 
     Field *field = new Field();
     diver1 = new Diver(0,400);
@@ -214,17 +245,17 @@ void PlayingState::newLevel(){
     diver1->setPosition(100, 600);
 
     sf::Rect<float> diverBound = diver1->getBoundingRect();
-    std::cout<<"diver width: "<<diverBound.width<<std::endl;
+    std::cout<<"diver width: "<< diverBound.width << std::endl;
 
     
     field->setPriority(0);
     diver1->setPriority(2);
 
-    _ascendingSpeed = 200;
+    _ascendingSpeed = 200 * std::log(_level + 2);
+
+    _cliffs = {};
 
     generateCliffs(_cliffs, _ascendingSpeed, 10);
-    airmarker(50,50);
-
     _bubbleMax = 15;
     _bubbles = std::vector<Bubble*>(_bubbleMax);
 
@@ -234,8 +265,6 @@ void PlayingState::newLevel(){
 
     Bubbles::initBubbles(_bubbleMax, 30, _ascendingSpeed, bubble_constraints, SCREEN_RANGE, this->_bubbles, visibleObjectManager);
 
-    visibleObjectManager.add("field", field);
-    visibleObjectManager.add("diver1", diver1);
 
     float finishPosition = 0;
 
@@ -264,7 +293,17 @@ void PlayingState::newLevel(){
     finishline->setPriority(1);
     finishline->setFinishing(false);
 
+    visibleObjectManager.add("field", field);
+    visibleObjectManager.add("diver1", diver1);
     visibleObjectManager.add("finishline", finishline);
+}
+
+void PlayingState::setEnded(bool end){
+  _end = end;
+}
+
+void PlayingState::resetLevel(){
+    _level = -1;
 }
 
 PlayingState::~PlayingState() { }
