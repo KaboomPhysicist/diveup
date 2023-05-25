@@ -11,6 +11,27 @@ void PlayingState::handleInput(sf::Event *event) {
 
 void PlayingState::update(float timeElapsed) { 
     BubblePopulation();
+    std::cout << _cliffs.at(_cliffs.size()-1)->getBoundingRect().top << std::endl;
+
+    if(finishline->getPosition().y > -DiveUp::SCREEN_HEIGHT){
+        if(finishline->getPosition().y < 0){
+        SCREEN_RANGE = {0, DiveUp::SCREEN_WIDTH, static_cast<int>(finishline->getPosition().y), 0};
+        }
+        else{
+        //std::cout << "Visible" << std::endl;
+        SCREEN_RANGE = {0, DiveUp::SCREEN_WIDTH, DiveUp::SCREEN_HEIGHT, DiveUp::SCREEN_HEIGHT};
+        }
+    bubble_constraints = {0, finishline->getPosition().y + 50 , DiveUp::SCREEN_WIDTH, DiveUp::SCREEN_HEIGHT};
+
+    }
+
+    if (finishline->getPosition().y > 200){
+        _ascendingSpeed = 0;
+
+        finishline->setFinishing(true);
+        diver1->setFinishing(true);
+    } 
+
     visibleObjectManager.updateAll(timeElapsed);
 }
 
@@ -20,7 +41,6 @@ void PlayingState::draw(sf::RenderWindow *window) {
 
 void PlayingState::BubblePopulation(){
         short int _bubbleIndex = 0;
-        std::vector SCREEN_RANGE = {0, DiveUp::SCREEN_WIDTH, -DiveUp::SCREEN_HEIGHT, 0};
 
         for(Bubble* bubble : _bubbles){
             if(bubble->isDead){
@@ -94,7 +114,7 @@ void PlayingState::generateCliffs(std::vector<Cliff*> cliffs,float velocity,int 
         float direction = (rand() % 2 == 0);
         float altura = ypos(gen);
         
-        std::vector<float> _cliffPos= {direction*DiveUp::SCREEN_WIDTH,altura};
+        std::vector<float> _cliffPos= {direction*DiveUp::SCREEN_WIDTH, altura};
 
         //generate size for cliffs
         int sizex = size(gen)+100;
@@ -121,8 +141,12 @@ void PlayingState::generateCliffs(std::vector<Cliff*> cliffs,float velocity,int 
 }
 
 void PlayingState::newLevel(){
+
     Field *field = new Field();
-    Diver *diver1 = new Diver(0,400);
+    diver1 = new Diver(0,400);
+
+    diver1->setFinishing(false);
+
 
     diver1->setPosition(100, 600);
     sf::Rect<float> diverBound = diver1->getBoundingRect();
@@ -132,14 +156,16 @@ void PlayingState::newLevel(){
     field->setPriority(0);
     diver1->setPriority(2);
 
-    generateCliffs(_cliffs,70,20);
+    _ascendingSpeed = 200;
+
+
+    generateCliffs(_cliffs, _ascendingSpeed, 10);
 
     _bubbleMax = 15;
     _bubbles = std::vector<Bubble*>(_bubbleMax);
 
-    _ascendingSpeed = 200;
 
-    std::vector SCREEN_RANGE = {0, DiveUp::SCREEN_WIDTH, 0, DiveUp::SCREEN_HEIGHT};
+    SCREEN_RANGE = {0, DiveUp::SCREEN_WIDTH, 0, DiveUp::SCREEN_HEIGHT};
     bubble_constraints = {0, -DiveUp::SCREEN_HEIGHT, DiveUp::SCREEN_WIDTH, 2*DiveUp::SCREEN_HEIGHT};
 
     Bubbles::initBubbles(_bubbleMax, 30, _ascendingSpeed, bubble_constraints, SCREEN_RANGE, this->_bubbles, visibleObjectManager);
@@ -152,14 +178,17 @@ void PlayingState::newLevel(){
         _cliffs.at(i)->setPriority(1);
     }
 
+    SCREEN_RANGE = {0, DiveUp::SCREEN_WIDTH, -DiveUp::SCREEN_HEIGHT, 0};
 
     // Generate EndLine based on the top position of the last cliff
 
     sf::Rect<float> lastCliffBound = _cliffs.at(_cliffs.size()-1)->getBoundingRect();
-    float finishPosition = lastCliffBound.top-100;
+    float finishPosition = lastCliffBound.top  - 100;
+    //float finishPosition = 200;
 
-    FinishLine *finishline = new FinishLine(finishPosition);
+    finishline = new FinishLine(finishPosition, _ascendingSpeed);
     finishline->setPriority(1);
+    finishline->setFinishing(false);
 
     visibleObjectManager.add("finishline", finishline);
 }

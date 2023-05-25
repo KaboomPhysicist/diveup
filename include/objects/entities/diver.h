@@ -11,6 +11,8 @@ class Diver : public VisibleObject {
         void collideWith(VisibleObject *target);
 
         void Set_texture(std::string textureFilename);
+        void setFinishing(bool);
+
 
     private:
         enum Direction { Left, Right ,NONE};
@@ -20,6 +22,8 @@ class Diver : public VisibleObject {
         float _constraintLeft;
         float _constraintRight;
         float _oxygen;
+        bool _finishing;
+        float y_velocity;
 
 
 };

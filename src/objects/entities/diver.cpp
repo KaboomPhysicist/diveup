@@ -31,7 +31,7 @@ void Diver::handleInput(sf::Event *event) {
         }
     } else if (event->type == sf::Event::KeyReleased) {
             _direction = NONE;
-            this->Set_texture("assets/stand-diver1.png");
+            this->Set_texture("assets/stand-diver3.png");
         }
     }
 
@@ -39,15 +39,22 @@ void Diver::handleInput(sf::Event *event) {
 void Diver::update(float timeElapsed) {
 
 
-    float velocity = 0.0f;
+    float x_velocity = 0.0f;
 
        if (_direction == Left) {
-        velocity = _speed * -1;
+        x_velocity = _speed * -1;
     } else if (_direction == Right) {
-        velocity = _speed;
+        x_velocity = _speed;
     }
+
+    if(_finishing){
+        y_velocity = -300;
+    }
+    else y_velocity = 0;
     
-    move(velocity * timeElapsed,0);
+
+
+    move(x_velocity * timeElapsed, y_velocity * timeElapsed);
 
     if (getPosition().x < _constraintLeft) {
         setPosition(_constraintLeft, getPosition().y);
@@ -62,4 +69,8 @@ void Diver::collideWith(VisibleObject *target){
     //std::cout << "Oxygen for you" << std::endl;
     _oxygen += 10;
 
+}
+
+void Diver::setFinishing(bool val){
+    _finishing = val;
 }

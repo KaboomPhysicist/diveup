@@ -1,9 +1,9 @@
 #include "objects/entities/finishline.h"
 #include "diveup.h"
 
-FinishLine::FinishLine(int position) : VisibleObject("assets/finishline.png") {
+FinishLine::FinishLine(int position, float speed) : VisibleObject("assets/finishline.png") {
     this->setPosition(0, position);
-    velocity = 50.0f;
+    velocity = speed;
 }
 
 void FinishLine::collideWith(VisibleObject *target) {
@@ -13,10 +13,18 @@ void FinishLine::collideWith(VisibleObject *target) {
 };
 
 void FinishLine::update(float timeElapsed) {
-    if(this->getPosition().y < 120){
-    this->move(0, velocity * timeElapsed);
+    std::cout << "Line position:" << this->getPosition().y << std::endl;
+    if(_finishing){
+        this->move(0, 0);
+    }
+    else{
+        this->move(0, velocity * timeElapsed);
     }
 }
 
 void FinishLine::handleInput(sf::Event *event) {
+}
+
+void FinishLine::setFinishing(bool val){
+    _finishing = val;
 }

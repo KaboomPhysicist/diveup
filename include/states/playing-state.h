@@ -39,5 +39,7 @@ class PlayingState : public GameState{
         float _ascendingSpeed;
         short int _level;
         sf::Rect<float> bubble_constraints;
+        Diver *diver1;
         FinishLine *finishline;
+        std::vector<int> SCREEN_RANGE;
 };
