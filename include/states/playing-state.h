@@ -23,7 +23,7 @@ class PlayingState : public GameState{
         ~PlayingState() override;
         
         void newLevel();
-        void airmarker(int, int,float);
+        void airmarker(int, int);
         void opacityupdate(int);
 
         void generateCliffs(std::vector<Cliff*> cliffs,float,int);

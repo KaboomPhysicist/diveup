@@ -4,7 +4,7 @@
 
 class AirCounter : public VisibleObject {
     public:
-        AirCounter(int,int,float);
+        AirCounter(int,int);
         void handleInput(sf::Event *event);
         void update(float timeElapsed);
         void setOpacity(int);

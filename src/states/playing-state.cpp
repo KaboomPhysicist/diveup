@@ -144,12 +144,12 @@ void PlayingState::generateCliffs(std::vector<Cliff*> cliffs,float velocity,int 
 
 }
 
-void PlayingState::airmarker(int x,int y,float air ){
+void PlayingState::airmarker(int x,int y ){
     //generate air markers
     
     float position = 10;
     for (int i=0; i< 5 ;i++){
-        AirCounter *airmarker = new AirCounter(x,y,air);
+        AirCounter *airmarker = new AirCounter(x,y);
         sf::Rect<float> aircounterbound = airmarker->getBoundingRect();
         
         airmarker->setPosition(position, 20);
@@ -164,40 +164,45 @@ void PlayingState::opacityupdate(int oxigenoquememuero){
     //update opacity of air markers
     //std::cout<<"oxigenoquememuero" << oxigenoquememuero << std::endl;
 
-    for (int i = 0; i < 5; i++) {
-        _aircounters.at(i)->setOpacity(20);
-    }
-
-    for (int i=0; i< 5 ;i++){
-        _aircounters.at(i)->setOpacity(20);
-    }
-    if (oxigenoquememuero<100 && oxigenoquememuero>80){
-        _aircounters.at(4)->setOpacity(100-oxigenoquememuero);
-    }
-    if (oxigenoquememuero<80 && oxigenoquememuero>60){
+switch (oxigenoquememuero) {
+    case 81 ... 100:
+        _aircounters.at(4)->setOpacity(100 - oxigenoquememuero);
+        _aircounters.at(3)->setOpacity(20);
+        _aircounters.at(2)->setOpacity(20);
+        _aircounters.at(1)->setOpacity(20);
+        _aircounters.at(0)->setOpacity(20);
+        break;
+    case 61 ... 80:
         _aircounters.at(4)->setOpacity(0);
-        _aircounters.at(3)->setOpacity(80-oxigenoquememuero);
-    }
-    if (oxigenoquememuero<60 && oxigenoquememuero>40){
+        _aircounters.at(3)->setOpacity(80 - oxigenoquememuero);
+        _aircounters.at(2)->setOpacity(20);
+        _aircounters.at(1)->setOpacity(20);
+        _aircounters.at(0)->setOpacity(20);
+        break;
+    case 41 ... 60:
         _aircounters.at(4)->setOpacity(0);
         _aircounters.at(3)->setOpacity(0);
-        _aircounters.at(2)->setOpacity(60-oxigenoquememuero);
-    }
-    if (oxigenoquememuero<40 && oxigenoquememuero>20){
+        _aircounters.at(2)->setOpacity(60 - oxigenoquememuero);
+        _aircounters.at(1)->setOpacity(20);
+        _aircounters.at(0)->setOpacity(20);
+        break;
+    case 21 ... 40:
         _aircounters.at(4)->setOpacity(0);
         _aircounters.at(3)->setOpacity(0);
         _aircounters.at(2)->setOpacity(0);
-        _aircounters.at(1)->setOpacity(40-oxigenoquememuero);
-    }
-    if (oxigenoquememuero<20 && oxigenoquememuero>0){
+        _aircounters.at(1)->setOpacity(40 - oxigenoquememuero);
+        _aircounters.at(0)->setOpacity(20);
+        break;
+    case 1 ... 20:
         _aircounters.at(4)->setOpacity(0);
         _aircounters.at(3)->setOpacity(0);
         _aircounters.at(2)->setOpacity(0);
         _aircounters.at(1)->setOpacity(0);
-        _aircounters.at(0)->setOpacity(20-oxigenoquememuero);
-    }
-
-
+        _aircounters.at(0)->setOpacity(20 - oxigenoquememuero);
+        break;
+    case 0:
+     DiveUp::setState(DiveUp::Gameover);
+}
 }
 
 void PlayingState::newLevel(){
@@ -218,7 +223,7 @@ void PlayingState::newLevel(){
     _ascendingSpeed = 200;
 
     generateCliffs(_cliffs, _ascendingSpeed, 10);
-    airmarker(50,50,diver1->getOxygen());
+    airmarker(50,50);
 
     _bubbleMax = 15;
     _bubbles = std::vector<Bubble*>(_bubbleMax);

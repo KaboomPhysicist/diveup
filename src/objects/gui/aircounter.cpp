@@ -2,11 +2,7 @@
 #include "objects/entities/diver.h"
 #include "diveup.h"
 
-AirCounter:: AirCounter(int x,int y,float Oxygen) : VisibleObject("assets/bubble1.png"){
-
-    //_sprite.setColor(sf::Color(255,255,255,opasity));
-    oxygen = Oxygen;
-    
+AirCounter:: AirCounter(int x,int y) : VisibleObject("assets/bubble1.png"){  
     sf::Vector2f targetSize(x, y); 
     this->_sprite.setScale(
                             targetSize.x / this->_sprite.getLocalBounds().width, 

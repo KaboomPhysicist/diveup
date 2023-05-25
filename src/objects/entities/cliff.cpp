@@ -22,6 +22,7 @@ Cliff::Cliff(int sizex, int sizey,float dir,float speed) : VisibleObject("assets
 
 void Cliff::collideWith(VisibleObject *target) {
     if(!dynamic_cast<Diver*>(target) ) return;
+    
     std::cout << "Te diste un tiestaso" << std::endl;
     DiveUp::setState(DiveUp::Gameover);
 };
@@ -40,32 +41,4 @@ void Cliff::scaleCliff(float x, float y) {
                             );
 }
 
-void Cliff::handleInput(sf::Event *event){
-
-    //move(0, velocity * DiveUp::timeElapsed.asSeconds());
-
-    /*
-    if (event->type == sf::Event::MouseButtonPressed) {
-        int x = event->mouseButton.x;
-        int y = event->mouseButton.y;
-
-        //sf::Vector2f mousePosition = static_cast<sf::Vector2f>(sf::Mouse::getPosition(window));
-
-        sf::Vector2f mousePosition = sf::Vector2f(x, y);
-        sf::Uint8 alphaLimit = 127;
-
-        const sf::Sprite sprite = this->_sprite;
-        
-
-        if(Collision::singlePixelTest(sprite, mousePosition, 128)){
-            std::cout << "Cliff Pressed" << std::endl;
-            if(velocity == 0.0f)
-                velocity = 100.0f;
-            else if(velocity == 100.0f)
-                velocity = 0.0f;
-
-            
-        }
-    }
-    */
-}
+void Cliff::handleInput(sf::Event *event){}
