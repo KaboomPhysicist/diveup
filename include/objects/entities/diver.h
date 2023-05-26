@@ -14,6 +14,7 @@ class Diver : public VisibleObject {
         void setFinishing(bool);
 
         float getOxygen();
+        void setOxygen(float);
         
 
     private:

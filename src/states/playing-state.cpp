@@ -40,6 +40,8 @@ void PlayingState::update(float timeElapsed) {
 
     opacityupdate(diver1->getOxygen());
 
+    diver1->setOxygen(diver1->getOxygen()-timeElapsed*2*log(_level+2));
+
     visibleObjectManager.updateAll(timeElapsed);
 }
 

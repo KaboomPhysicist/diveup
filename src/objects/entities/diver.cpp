@@ -40,9 +40,12 @@ void Diver::handleInput(sf::Event *event) {
 
 float Diver::getOxygen() {
     return _oxygen;}
+
+void Diver::setOxygen(float oxygen) {
+    _oxygen = oxygen;
+}
     
 void Diver::update(float timeElapsed) {
-    //std::cout<<"timeElapsed: "<<timeElapsed<<std::endl;
 
 
     float x_velocity = 0.0f;
@@ -58,10 +61,7 @@ void Diver::update(float timeElapsed) {
     }
     else y_velocity = 0;
 
-    _oxygen -= timeElapsed*2;
     
-
-
     move(x_velocity * timeElapsed, y_velocity * timeElapsed);
 
     if (getPosition().x < _constraintLeft) {
@@ -74,7 +74,7 @@ void Diver::update(float timeElapsed) {
 void Diver::collideWith(VisibleObject *target){
     if(!dynamic_cast<Bubble*>(target)) return;
 
-    _oxygen += 5;
+    _oxygen += 3;
     std::cout << "Oxygen: " << _oxygen << std::endl;
 
 }
