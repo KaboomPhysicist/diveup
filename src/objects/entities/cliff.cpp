@@ -24,7 +24,7 @@ void Cliff::collideWith(VisibleObject *target) {
     if(!dynamic_cast<Diver*>(target) ) return;
     
     std::cout << "Te diste un tiestaso" << std::endl;
-    update();
+    //update(0.15);
     dynamic_cast<PlayingState*>(DiveUp::getState())->setEnded(true);
     dynamic_cast<PlayingState*>(DiveUp::getState())->resetLevel();
 
@@ -46,3 +46,90 @@ void Cliff::scaleCliff(float x, float y) {
 }
 
 void Cliff::handleInput(sf::Event *event){}
+
+void Cliff::generateCliffs(std::vector<Cliff*> &_cliffs, float velocity,int cliffsMax){
+
+    std::cout << "Generating Cliffs" << std::endl;
+
+    int _cliffsMax = cliffsMax;
+    for (int i=0; i< _cliffsMax ;i++){
+        
+
+        //generate random position for cliffs
+        std::random_device rd;
+        std::mt19937 gen(rd());
+
+        std::normal_distribution<float> ypos(0, 50);
+        std::normal_distribution<float> size(100, 50);
+
+        float direction = (rand() % 2 == 0);
+        float altura = ypos(gen);
+        
+        std::vector<float> _cliffPos= {direction*DiveUp::SCREEN_WIDTH, altura};
+
+        //generate size for cliffs
+        int sizex = size(gen)+100;
+        int sizey = size(gen)+100;
+
+        //std::cout << "size: " << sizex << " " << sizey << std::endl;
+
+
+        Cliff *cliff = new Cliff(sizex,sizey,direction,velocity);
+        cliff->setPosition(_cliffPos.at(0), _cliffPos.at(1));
+
+        // verify if the cliff does not intersect with another cliff
+
+        if (i > 0){
+            verifyCliffs(_cliffs, *cliff); 
+            verifySpace(_cliffs, *cliff);}
+    
+
+        _cliffs.push_back(cliff);
+
+    }
+    //the lowest cliff must be over 500, so let's move all cliffs up
+    for (Cliff *i : _cliffs){ i->setPosition(i->getPosition().x, i->getPosition().y-500); }
+
+}
+
+void Cliff::verifyCliffs(std::vector<Cliff*> &_cliffs, Cliff &cliff){
+
+    sf::Rect<float> cliffBound = cliff.getBoundingRect();
+
+    //verify if cliff is colliding with another cliff    
+    for (int j=0; j< _cliffs.size(); j++){
+        sf::Rect<float> targetBound = _cliffs.at(j)->getBoundingRect();
+        if (cliffBound.intersects(targetBound)){
+            std::cout << j << std::endl;
+            std::vector<float> _cliffPos;
+            float desplacement = ((rand() % 2 == 0) ? 1 : -1)*targetBound.height+100;
+            _cliffPos = {cliff.getPosition().x, cliff.getPosition().y-desplacement};
+
+            cliff.setPosition(_cliffPos.at(0), _cliffPos.at(1));
+            verifyCliffs(_cliffs, cliff);
+}}}
+
+void Cliff::verifySpace(std::vector<Cliff*> &_cliffs, Cliff &cliff){
+// verify if there is space for the diver to pass through the cliffs
+
+    sf::Rect<float> cliffBound = cliff.getBoundingRect();
+    
+    float diverWidth = 80;
+
+    for (int j=0; j< _cliffs.size(); j++){
+        sf::Rect<float> targetBound = _cliffs.at(j)->getBoundingRect();
+
+        if (cliffBound.top>=targetBound.top && cliffBound.top+cliffBound.height<=targetBound.top+targetBound.height
+            ||cliffBound.top>=targetBound.top && cliffBound.top+cliffBound.height>=targetBound.top+targetBound.height
+            ||targetBound.top>=cliffBound.top && targetBound.top+targetBound.height<=cliffBound.top+cliffBound.height
+            ||targetBound.top>=cliffBound.top && targetBound.top+targetBound.height>=cliffBound.top+cliffBound.height){
+
+            if (cliffBound.width+targetBound.width+diverWidth>=DiveUp::SCREEN_WIDTH){
+
+                // resize the cliff to 10% of its original size
+                
+                cliff.scaleCliff(cliffBound.width-cliffBound.width*0.1, cliffBound.height);
+                //sf::Rect<float> cliffBound = cliff.getBoundingRect();
+                verifySpace(_cliffs, cliff);
+                
+}}}}

@@ -23,11 +23,6 @@ class PlayingState : public GameState{
         void initAirmarker(int, int);
         void opacityupdate(int);
 
-        void generateCliffs(std::vector<Cliff*> cliffs,float,int);
-        void verifyCliffs(Cliff&);
-        void verifySpace(Cliff&);
-        void scaleCliffs(float, float,Cliff*);
-
         void reset();
         void setEnded(bool);
         void resetLevel();

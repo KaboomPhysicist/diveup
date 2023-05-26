@@ -91,45 +91,42 @@ void Bubble::collideWith(VisibleObject *target) {
 
     this->isDead = true;
 
-};
+}
 
-namespace Bubbles{
+void Bubble::GenerateBubble(short int index, float velocity_factor, float velocity_bias, sf::Rect<float> constraints, std::vector<int> SCREEN_RANGE, std::vector<Bubble*>& _bubbles, VisibleObjectManager& visibleObjectManager){
+    // Generate random position for bubble
 
-    void GenerateBubble(short int index, float velocity_factor, float velocity_bias, sf::Rect<float> constraints, std::vector<int> SCREEN_RANGE, std::vector<Bubble*>& _bubbles, VisibleObjectManager& visibleObjectManager){
-        // Generate random position for bubble
+    std::random_device rd;
+    std::mt19937 gen(rd());
 
-        std::random_device rd;
-        std::mt19937 gen(rd());
+    std::uniform_int_distribution<> disx(SCREEN_RANGE.at(0), SCREEN_RANGE.at(1));
+    std::uniform_int_distribution<> disy(SCREEN_RANGE.at(2), SCREEN_RANGE.at(3));
 
-        std::uniform_int_distribution<> disx(SCREEN_RANGE.at(0), SCREEN_RANGE.at(1));
-        std::uniform_int_distribution<> disy(SCREEN_RANGE.at(2), SCREEN_RANGE.at(3));
+    //int x = (rand() % SCREEN_RANGE.at(1)) + SCREEN_RANGE.at(0);
+    //int y = (rand() % SCREEN_RANGE.at(3)) + SCREEN_RANGE.at(2);
 
-        //int x = (rand() % SCREEN_RANGE.at(1)) + SCREEN_RANGE.at(0);
-        //int y = (rand() % SCREEN_RANGE.at(3)) + SCREEN_RANGE.at(2);
+    int x = disx(gen);
+    int y = disy(gen);
 
-        int x = disx(gen);
-        int y = disy(gen);
+    //std::cout << "Bubble index: " << index << std::endl;
 
-        //std::cout << "Bubble index: " << index << std::endl;
+    //sf::Rect<float> constraints(0, SCREEN_RANGE.at(2), SCREEN_RANGE.at(1), 720);
 
-        //sf::Rect<float> constraints(0, SCREEN_RANGE.at(2), SCREEN_RANGE.at(1), 720);
+    _bubbles.at(index) = new Bubble(constraints, velocity_factor, velocity_bias);
 
-        _bubbles.at(index) = new Bubble(constraints, velocity_factor, velocity_bias);
+    _bubbles.at(index)->setPosition(x, y);
+    _bubbles.at(index)->setPriority(1);
 
-        _bubbles.at(index)->setPosition(x, y);
-        _bubbles.at(index)->setPriority(1);
+    std::ostringstream bubbleName;
+    bubbleName << "bubble" << index;
+    //std::cout << "Created Bubble name: " << bubbleName.str() << std::endl;
 
-        std::ostringstream bubbleName;
-        bubbleName << "bubble" << index;
-        //std::cout << "Created Bubble name: " << bubbleName.str() << std::endl;
+    visibleObjectManager.add(bubbleName.str(), _bubbles.at(index));
+}
 
-        visibleObjectManager.add(bubbleName.str(), _bubbles.at(index));
-    }
-
-    void initBubbles(short int bubbleMax, float velocity_factor, float velocity_bias, sf::Rect<float> constraints, std::vector<int> SCREEN_RANGE, std::vector <Bubble*>& _bubbles, VisibleObjectManager& visibleObjectManager){
-        std::cout << "Initializing Bubbles" << std::endl;
-        for(int i=0; i<bubbleMax; i++){
-            GenerateBubble(i, velocity_factor, velocity_bias, constraints, SCREEN_RANGE, _bubbles, visibleObjectManager);
-        }
+void Bubble::initBubbles(short int bubbleMax, float velocity_factor, float velocity_bias, sf::Rect<float> constraints, std::vector<int> SCREEN_RANGE, std::vector <Bubble*>& _bubbles, VisibleObjectManager& visibleObjectManager){
+    std::cout << "Initializing Bubbles" << std::endl;
+    for(int i=0; i<bubbleMax; i++){
+        GenerateBubble(i, velocity_factor, velocity_bias, constraints, SCREEN_RANGE, _bubbles, visibleObjectManager);
     }
 }

@@ -13,6 +13,8 @@ class Bubble : public VisibleObject {
         void collideWith(VisibleObject *target);
         bool isDead;
         void setBias(float bias);
+        static void GenerateBubble(short int index, float velocity_factor, float velocity_bias, sf::Rect<float> constraints, std::vector<int> SCREEN_RANGE, std::vector<Bubble*>& _bubbles, VisibleObjectManager& visibleObjectManager);
+        static void initBubbles(short int bubbleMax, float velocity_factor, float velocity_bias, sf::Rect<float> constraints, std::vector<int> SCREEN_RANGE, std::vector <Bubble*>& _bubbles, VisibleObjectManager& visibleObjectManager);
 
     private:
         float lifetime;
@@ -26,8 +28,3 @@ class Bubble : public VisibleObject {
         float xVelocity();
 
 };
-
-namespace Bubbles{
-    void GenerateBubble(short int index, float velocity_factor, float velocity_bias, sf::Rect<float> constraints, std::vector<int> SCREEN_RANGE, std::vector<Bubble*>& _bubbles, VisibleObjectManager& visibleObjectManager);
-    void initBubbles(short int bubbleMax, float velocity_factor, float velocity_bias, sf::Rect<float> constraints, std::vector<int> SCREEN_RANGE, std::vector <Bubble*>& _bubbles, VisibleObjectManager& visibleObjectManager);
-}
