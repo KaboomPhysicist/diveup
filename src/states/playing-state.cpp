@@ -40,7 +40,7 @@ void PlayingState::update(float timeElapsed) {
 
     opacityupdate(diver1->getOxygen());
 
-    diver1->setOxygen(diver1->getOxygen()-timeElapsed*2*log(_level+2));
+    diver1->setOxygen(diver1->getOxygen()-timeElapsed*1*log(_level+2));
 
     visibleObjectManager.updateAll(timeElapsed);
 }
@@ -82,7 +82,7 @@ void PlayingState::BubblePopulation(){
 
 
 void PlayingState::initAirmarker(int x,int y ){
-    //generate air markers
+    //generate air counters
     
     float position = 10;
     for (int i=0; i< 5 ;i++){
@@ -102,16 +102,23 @@ void PlayingState::opacityupdate(int oxigenoquememuero){
     //std::cout<<"oxigenoquememuero" << oxigenoquememuero << std::endl;
 
 switch (oxigenoquememuero) {
-    case 81 ... 100:
-        _aircounters.at(4)->setOpacity(100 - oxigenoquememuero);
+    case 101 ... 1000:
+        _aircounters.at(4)->setOpacity(20);
         _aircounters.at(3)->setOpacity(20);
         _aircounters.at(2)->setOpacity(20);
         _aircounters.at(1)->setOpacity(20);
         _aircounters.at(0)->setOpacity(20);
         break;
+    case 81 ... 100:
+        _aircounters.at(4)->setOpacity(20 + oxigenoquememuero-100);
+        _aircounters.at(3)->setOpacity(20);
+        _aircounters.at(2)->setOpacity(20);
+        _aircounters.at(1)->setOpacity(20);
+        _aircounters.at(0)->setOpacity(20); 
+        break;
     case 61 ... 80:
         _aircounters.at(4)->setOpacity(0);
-        _aircounters.at(3)->setOpacity(80 - oxigenoquememuero);
+        _aircounters.at(3)->setOpacity(20 + oxigenoquememuero-80);
         _aircounters.at(2)->setOpacity(20);
         _aircounters.at(1)->setOpacity(20);
         _aircounters.at(0)->setOpacity(20);
@@ -119,7 +126,7 @@ switch (oxigenoquememuero) {
     case 41 ... 60:
         _aircounters.at(4)->setOpacity(0);
         _aircounters.at(3)->setOpacity(0);
-        _aircounters.at(2)->setOpacity(60 - oxigenoquememuero);
+        _aircounters.at(2)->setOpacity(20 + oxigenoquememuero-60);
         _aircounters.at(1)->setOpacity(20);
         _aircounters.at(0)->setOpacity(20);
         break;
@@ -127,15 +134,16 @@ switch (oxigenoquememuero) {
         _aircounters.at(4)->setOpacity(0);
         _aircounters.at(3)->setOpacity(0);
         _aircounters.at(2)->setOpacity(0);
-        _aircounters.at(1)->setOpacity(40 - oxigenoquememuero);
+        _aircounters.at(1)->setOpacity(20 + oxigenoquememuero-40);
         _aircounters.at(0)->setOpacity(20);
         break;
     case 1 ... 20:
+        
         _aircounters.at(4)->setOpacity(0);
         _aircounters.at(3)->setOpacity(0);
         _aircounters.at(2)->setOpacity(0);
         _aircounters.at(1)->setOpacity(0);
-        _aircounters.at(0)->setOpacity(20 - oxigenoquememuero);
+        _aircounters.at(0)->setOpacity(oxigenoquememuero);
         break;
     case 0:
     std::cout << "Muerte por asfixia" << std::endl;

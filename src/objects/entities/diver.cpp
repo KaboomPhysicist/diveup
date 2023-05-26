@@ -26,10 +26,10 @@ void Diver::handleInput(sf::Event *event) {
     if (event->type == sf::Event::KeyPressed) {
         if (event->key.code == sf::Keyboard::Left) {
             _direction = Left;
-            this->Set_texture("assets/diver-left.png");
+            this->Set_texture("assets/DEBUG-diver-left.png");
         } else if (event->key.code == sf::Keyboard::Right) {
             _direction = Right;
-            this->Set_texture("assets/diver-right.png");
+            this->Set_texture("assets/DEBUG-diver-right.png");
         }
     } else if (event->type == sf::Event::KeyReleased) {
             _direction = NONE;
