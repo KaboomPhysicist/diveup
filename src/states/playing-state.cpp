@@ -2,6 +2,7 @@
 #include "diveup.h"
 
 void PlayingState::init() {
+  // Initialize the level to 0 and declare a new level.
     _level = 0;
     initAirmarker(50,50);
     newLevel();
@@ -12,23 +13,37 @@ void PlayingState::handleInput(sf::Event *event) {
 }
 
 void PlayingState::update(float timeElapsed) { 
-  
+    // If game is marked as ended, reset the variables.
     if(_end) reset(); 
 
+    // There are multiple areas of interest:
+    // Visible Screen: Rendered area.
+    // Area1: An area above the visible Screen with the same height.
+
+
+    // Check the finishline position
     if(finishline->getPosition().y > -DiveUp::SCREEN_HEIGHT){
+      // if it's in the visble screen or the Area1 then contrain the bubbles.
+      
+      // For Area1:
         if(finishline->getPosition().y < 0){
+          //Contrain the generation from the beggining of the Area1 to the finishline
         SCREEN_RANGE = {0, DiveUp::SCREEN_WIDTH, static_cast<int>(finishline->getPosition().y), 0};
         }
+        //For Visible Screen:
         else{
-        //std::cout << "Visible" << std::endl;
+        // Stop the generation of bubbles (Same beggining and ending)
         SCREEN_RANGE = {0, DiveUp::SCREEN_WIDTH, DiveUp::SCREEN_HEIGHT, DiveUp::SCREEN_HEIGHT};
         }
-        bubble_constraints = {0, finishline->getPosition().y + 5 , DiveUp::SCREEN_WIDTH, DiveUp::SCREEN_HEIGHT};
+        //change constraint of new geneated bubbles to below the finishline
+        bubble_constraints = {0, finishline->getPosition().y , DiveUp::SCREEN_WIDTH, DiveUp::SCREEN_HEIGHT};
 
     }
 
+    // Generate bubbles according to the defined contraints
     BubblePopulation();
 
+    // If finishline is in the ultimate position, stop it and the bubbles
     if (finishline->getPosition().y > 200){
         _ascendingSpeed = 0;
         for(Bubble* bubble : _bubbles){
@@ -38,8 +53,9 @@ void PlayingState::update(float timeElapsed) {
         diver1->setFinishing(true);
     } 
 
+    // update opacity of the oxygen marker
     opacityupdate(diver1->getOxygen());
-
+    //update the oxygen of the player
     diver1->setOxygen(diver1->getOxygen()-timeElapsed*1*log(_level+2));
 
     visibleObjectManager.updateAll(timeElapsed);
@@ -47,9 +63,11 @@ void PlayingState::update(float timeElapsed) {
 
 void PlayingState::reset(){
     //std::cout << "Reseting..." << std::endl;
+    //Remove diver and finishline from the visibleObjectManager
     visibleObjectManager.remove("diver1");
     visibleObjectManager.remove("finishline");
 
+    //Clean the bubble and cliff vectors.
     for (int i = 0; i < _cliffs.size(); i++){
         visibleObjectManager.remove("cliff" + std::to_string(i));
     }
@@ -59,6 +77,7 @@ void PlayingState::reset(){
 
     }
 
+    // Level up. reset is intended to be called when the level has been changed to -1.
     _level++;
     setEnded(false);
     newLevel();
