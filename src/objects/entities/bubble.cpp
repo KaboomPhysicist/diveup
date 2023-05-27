@@ -4,9 +4,18 @@
 #include <sstream>
 
 Bubble::Bubble(sf::Rect<float> constraints, float factor, float velocity_bias = 0) : VisibleObject("assets/bubble1.png") {
-    // Apply transparency to the sprite. Last value is the alpha value.
-    //this->_sprite.setColor(sf::Color(255, 255, 255, 128));
+    /**
+     * Constructor of bubble Class
+     *
+     * Declare an object of type bubble with defined velocity and constraints.
+     *
+     * @param constraints: (sf::Rect<float>) Defines the area where the bubble can exist. Out this area, the bubble dies.
+     * @param factor: (float) Defines the factor of the upward velocity of the bubble (calibration factor for stokes velocity).
+     * @param velocity_bias: (float) Defines the downward velocity of the bubble, corresponding initially to the ascending speed of a player.
+     */
 
+
+    //Generate a random size for the bubble
     this->size = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/5)) + 22;
 
     sf::Vector2f targetSize(this->size, this->size); 
@@ -14,10 +23,12 @@ Bubble::Bubble(sf::Rect<float> constraints, float factor, float velocity_bias = 
                             targetSize.x / this->_sprite.getLocalBounds().width, 
                             targetSize.y / this->_sprite.getLocalBounds().height);
 
+
     this->velocity_factor = factor;
     this->velocity_bias = velocity_bias;
     this->constraints = constraints;
 
+    // Unused. Planned for random deleting a bubble.
     this->maxlifetime = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/5));
     //std::cout << "Bubble maxlifetime: " << this->maxlifetime << std::endl;
     this->lifetime = 0;
@@ -26,8 +37,18 @@ Bubble::Bubble(sf::Rect<float> constraints, float factor, float velocity_bias = 
 
 
 void Bubble::update(float timeElapsed){
+  /**
+   * Update function for Bubble class
+   *
+   * Update the status and the position of the bubbles
+   *
+   * @param timeElapsed: (float) time elapsed from the last cycle
+   */
+
+    // If the bubble is dead, don't update.
     if(isDead) return;
 
+    // lifetime for checking maxlifetime. Not used.
     lifetime += timeElapsed;
 
     //Check for constraints (Screen visualization)
@@ -36,6 +57,7 @@ void Bubble::update(float timeElapsed){
         //std::cout << "Bubble died" << std::endl;
     }
 
+    // Update position of the bubble
     float dispY = -yVelocity() * timeElapsed;
     float dispX = xVelocity() * timeElapsed;
 
