@@ -100,7 +100,6 @@ void Cliff::verifyCliffs(std::vector<Cliff*> &_cliffs, Cliff &cliff){
     for (int j=0; j< _cliffs.size(); j++){
         sf::Rect<float> targetBound = _cliffs.at(j)->getBoundingRect();
         if (cliffBound.intersects(targetBound)){
-            std::cout << j << std::endl;
             std::vector<float> _cliffPos;
             float desplacement = ((rand() % 2 == 0) ? 1 : -1)*targetBound.height+100;
             _cliffPos = {cliff.getPosition().x, cliff.getPosition().y-desplacement};

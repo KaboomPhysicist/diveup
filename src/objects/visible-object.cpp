@@ -10,6 +10,10 @@ VisibleObject::VisibleObject(std::string textureFilename) {
   _sprite.setTexture(_texture);
 }
 
+void VisibleObject::handleInput(sf::Event *event) {};
+void VisibleObject::update(float timeElapsed) {};
+void VisibleObject::collideWith(VisibleObject *target) {};
+
 VisibleObject::~VisibleObject() {}
 
 void VisibleObject::draw(sf::RenderWindow *window) {
