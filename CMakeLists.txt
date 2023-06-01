@@ -25,6 +25,7 @@ set(SOURCES src/main.cpp
             src/objects/gui/playagain-button.cpp
             src/objects/gui/nextlevel-button.cpp
             src/objects/gui/aircounter.cpp
+            src/objects/gui/nextlevel.cpp
             src/objects/entities/bubble.cpp
             src/objects/entities/field.cpp
             src/objects/entities/diver.cpp

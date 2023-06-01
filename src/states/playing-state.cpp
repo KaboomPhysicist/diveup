@@ -44,7 +44,7 @@ void PlayingState::update(float timeElapsed) {
     BubblePopulation();
 
     // If finishline is in the ultimate position, stop it and the bubbles
-    if (finishline->getPosition().y > 200){
+    if (finishline->getPosition().y > 180){
         _ascendingSpeed = 0;
         for(Bubble* bubble : _bubbles){
             bubble->setBias(0);
@@ -91,6 +91,9 @@ void PlayingState::BubblePopulation(){
     short int _bubbleIndex = 0;
 
     for(Bubble* bubble : _bubbles){
+        if(bubble->getTop() < finishline->getPosition().y){
+          bubble->isDead = true;
+        } 
         if(bubble->isDead){
             visibleObjectManager.remove("bubble" + std::to_string(_bubbleIndex));
             Bubble::GenerateBubble(_bubbleIndex, 30, _ascendingSpeed, bubble_constraints, SCREEN_RANGE, _bubbles, visibleObjectManager);

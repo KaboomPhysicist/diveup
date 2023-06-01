@@ -2,6 +2,7 @@
 #include "game-state.h"
 
 #include "objects/gui/nextlevel-button.h"
+#include "objects/gui/nextlevel.h"
 #include "objects/entities/diver.h"
 
 class NextLevelState : public GameState{

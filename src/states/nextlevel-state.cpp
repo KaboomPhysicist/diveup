@@ -7,7 +7,7 @@ void NextLevelState::init() {
     sf::Vector2f targetSize(300/2, 80/2); 
     ExitButton *exitButton = new ExitButton(targetSize);
     
-    Field *field = new Field();
+    NextLevel *field = new NextLevel();
 
 
     nextLevelButton->setPosition(240 - 75, 80);
