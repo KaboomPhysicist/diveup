@@ -124,13 +124,6 @@ void PlayingState::opacityupdate(int oxigenoquememuero){
     //std::cout<<"oxigenoquememuero" << oxigenoquememuero << std::endl;
 
 switch (oxigenoquememuero) {
-    case 101 ... 1000:
-        _aircounters.at(4)->setOpacity(20);
-        _aircounters.at(3)->setOpacity(20);
-        _aircounters.at(2)->setOpacity(20);
-        _aircounters.at(1)->setOpacity(20);
-        _aircounters.at(0)->setOpacity(20);
-        break;
     case 81 ... 100:
         _aircounters.at(4)->setOpacity(20 + oxigenoquememuero-100);
         _aircounters.at(3)->setOpacity(20);
@@ -160,7 +153,6 @@ switch (oxigenoquememuero) {
         _aircounters.at(0)->setOpacity(20);
         break;
     case 1 ... 20:
-        
         _aircounters.at(4)->setOpacity(0);
         _aircounters.at(3)->setOpacity(0);
         _aircounters.at(2)->setOpacity(0);
@@ -168,10 +160,16 @@ switch (oxigenoquememuero) {
         _aircounters.at(0)->setOpacity(oxigenoquememuero);
         break;
     case 0:
-    std::cout << "Muerte por asfixia" << std::endl;
-    setEnded(true);
-    resetLevel();
-    DiveUp::setState(DiveUp::Gameover);
+        std::cout << "Muerte por asfixia" << std::endl;
+        setEnded(true);
+        resetLevel();
+        DiveUp::setState(DiveUp::Gameover);
+    default:
+        _aircounters.at(4)->setOpacity(20);
+        _aircounters.at(3)->setOpacity(20);
+        _aircounters.at(2)->setOpacity(20);
+        _aircounters.at(1)->setOpacity(20);
+        _aircounters.at(0)->setOpacity(20);
 }
 }
 
