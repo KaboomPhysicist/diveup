@@ -16,6 +16,7 @@ set(SOURCES src/main.cpp
             src/states/gameover-state.cpp
             src/states/playing-state.cpp
             src/states/nextlevel-state.cpp
+            src/states/debug-state.cpp
             src/objects/visible-object.cpp
             src/objects/visible-object-manager.cpp
             src/objects/gui/splashscreen.cpp

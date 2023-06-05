@@ -1,4 +1,5 @@
 #include "objects/entities/diver.h"
+#include "states/playing-state.h"
 
 Diver::Diver(float constraintLeft, float constraintRight) : VisibleObject("assets/stand-diver3.png") {
     _constraintLeft = constraintLeft;
@@ -26,10 +27,16 @@ void Diver::handleInput(sf::Event *event) {
     if (event->type == sf::Event::KeyPressed) {
         if (event->key.code == sf::Keyboard::Left) {
             _direction = Left;
-            this->Set_texture("assets/DEBUG-diver-left.png");
+            this->Set_texture("assets/diver-left.png");
         } else if (event->key.code == sf::Keyboard::Right) {
             _direction = Right;
-            this->Set_texture("assets/DEBUG-diver-right.png");
+            this->Set_texture("assets/diver-right.png");
+        } else if (dynamic_cast<DebugState*>(DiveUp::getState())){
+            if (event->key.code == sf::Keyboard::Up){
+                _direction = Up;
+            } else if (event->key.code == sf::Keyboard::Down){
+                _direction = Down;
+            }
         }
     } else if (event->type == sf::Event::KeyReleased) {
             _direction = NONE;
@@ -50,15 +57,20 @@ void Diver::update(float timeElapsed) {
 
     float x_velocity = 0.0f;
 
-       if (_direction == Left) {
+    if (_direction == Left) {
         x_velocity = _speed * -1;
     } else if (_direction == Right) {
         x_velocity = _speed;
-    }
+    } 
+
+
 
     if(_finishing){
         y_velocity = -400;
-    }
+    } else if (_direction == Up) {
+        y_velocity = -80;
+    } else if (_direction == Down) {
+        y_velocity = 80;}
     else y_velocity = 0;
 
     
@@ -72,10 +84,10 @@ void Diver::update(float timeElapsed) {
 }
 
 void Diver::collideWith(VisibleObject *target){
-    if(!dynamic_cast<Bubble*>(target)) return;
-
-    _oxygen += 3;
-    std::cout << "Oxygen: " << _oxygen << std::endl;
+    if(dynamic_cast<Bubble*>(target)){
+        _oxygen += 3;
+        std::cout << "Oxygen: " << _oxygen << std::endl;
+    }
 
 }
 

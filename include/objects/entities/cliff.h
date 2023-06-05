@@ -2,7 +2,6 @@
 #include "objects/visible-object.h"
 #include "collision.h"
 
-
 class Cliff: public VisibleObject {
 public:
     Cliff(int,int,float,float);
@@ -17,4 +16,5 @@ public:
 
     private:
         float velocity;
+        //Triangle triangle;
 };

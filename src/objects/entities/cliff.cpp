@@ -1,7 +1,7 @@
 #include "objects/entities/cliff.h"
 #include "diveup.h"
 
-Cliff::Cliff(int sizex, int sizey,float dir,float speed) : VisibleObject("assets/cliff1.png") { 
+Cliff::Cliff(int sizex, int sizey,float dir,float speed) : VisibleObject("assets/cliff2.png") { 
     sf::Vector2f targetSize(sizex, sizey); 
     if (dir == 1.0f) {
         this->_sprite.setScale(
@@ -14,7 +14,6 @@ Cliff::Cliff(int sizex, int sizey,float dir,float speed) : VisibleObject("assets
                             targetSize.y / this->_sprite.getLocalBounds().height
                             );
     }
-
     
     velocity = speed;
 }
@@ -24,11 +23,15 @@ void Cliff::collideWith(VisibleObject *target) {
     if(!dynamic_cast<Diver*>(target) ) return;
     
     std::cout << "Te diste un tiestaso" << std::endl;
-    //update(0.15);
+    
+    // Check if State is PlayingState
+    if(!dynamic_cast<PlayingState*>(DiveUp::getState())) return;
+
     dynamic_cast<PlayingState*>(DiveUp::getState())->setEnded(true);
     dynamic_cast<PlayingState*>(DiveUp::getState())->resetLevel();
 
     DiveUp::setState(DiveUp::Gameover);
+        
 };
 
 

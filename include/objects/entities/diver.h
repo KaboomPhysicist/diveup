@@ -18,7 +18,7 @@ class Diver : public VisibleObject {
         
 
     private:
-        enum Direction { Left, Right ,NONE};
+        enum Direction {Left, Right , Down, Up, NONE};
         Direction _direction = NONE;
         float _speed = 100.0f;
         float _constraintLeft;
