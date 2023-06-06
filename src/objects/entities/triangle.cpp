@@ -1,4 +1,6 @@
 #include "objects/entities/triangle.h"
+#include <iostream>
+#include <cmath>
 
 
 Triangle::Triangle(const sf::Vector2f& vertex1, const sf::Vector2f& vertex2, const sf::Vector2f& vertex3, const sf::Vector2f& position) {
@@ -14,7 +16,8 @@ std::vector<sf::Vector2f> Triangle::calculateAxes() {
 
     for (int i = 0; i < 3; i++) {
         sf::Vector2f edge = vertices[(i + 1) % 3] - vertices[i];
-        sf::Vector2f axis(-edge.y, edge.x);  // Perpendicular axis
+        float norm = std::sqrt(edge.x * edge.x + edge.y * edge.y);
+        sf::Vector2f axis(-edge.y/norm, edge.x/norm);  // Perpendicular axis
         axes.push_back(axis);
     }
 
@@ -24,13 +27,17 @@ std::vector<sf::Vector2f> Triangle::calculateAxes() {
     // Project the triangle vertices onto the axis
 sf::Vector2f Triangle::projectOntoAxis(const sf::Vector2f& axis) {
     float minProjection = std::numeric_limits<float>::max();
-    float maxProjection = std::numeric_limits<float>::min();
+    float maxProjection = -std::numeric_limits<float>::max();
+
 
     for (int i = 0; i < 3; i++) {
-        float projection = axis.x * (vertices[i].x + position.x) + axis.y * (vertices[i].y + position.y);
+        //std::cout << "Vertices: " << vertices[i].x << " " << vertices[i].y << std::endl;
+        float projection = axis.x * (vertices[i].x) + axis.y * (vertices[i].y);
         minProjection = std::min(minProjection, projection);
         maxProjection = std::max(maxProjection, projection);
     }
+
+    //std::cout << "min: " << minProjection << " max: " << maxProjection << std::endl;
 
     return sf::Vector2f(minProjection, maxProjection);
 }

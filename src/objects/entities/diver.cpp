@@ -99,16 +99,19 @@ void Diver::setFinishing(bool val){
 std::vector<sf::Vector2f> Diver::calculateAxes() {
     std::vector<sf::Vector2f> axes;
 
-    sf::Vector2f edge = sf::Vector2f(0, 1);
-    sf::Vector2f axis(-edge.y, edge.x);  // Perpendicular axis
-    axes.push_back(axis);
+    sf::Vector2f axis1(0, 1);
+    sf::Vector2f axis2(1, 0);
+
+
+    axes.push_back(axis1);
+    axes.push_back(axis2);
 
     return axes;
 }
 
 sf::Vector2f Diver::projectOntoAxis(const sf::Vector2f& axis) {
     float minProjection = std::numeric_limits<float>::max();
-    float maxProjection = std::numeric_limits<float>::min();
+    float maxProjection = -std::numeric_limits<float>::max();
 
     // Find the vertices of the rectangular diver
     sf::Vector2f vertices[4];
@@ -119,10 +122,13 @@ sf::Vector2f Diver::projectOntoAxis(const sf::Vector2f& axis) {
 
 
     for(int i = 0; i < 4; i++){
-        float projection = axis.x * (vertices[i].x + getPosition().x)+ axis.y * (vertices[i].y + getPosition().y);
+        //std::cout << "Vertex" << " " <<vertices[i].x << " " << vertices[i].y << std::endl;
+        float projection = axis.x * (vertices[i].x)+ axis.y * (vertices[i].y);
         minProjection = std::min(minProjection, projection);
         maxProjection = std::max(maxProjection, projection);
     }
+
+    //std::cout << "minProjection: " << minProjection << "maxProjection: " << maxProjection << std::endl;
 
     return sf::Vector2f(minProjection, maxProjection);
 }
