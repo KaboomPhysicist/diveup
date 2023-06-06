@@ -32,7 +32,9 @@ set(SOURCES src/main.cpp
             src/objects/entities/diver.cpp
             src/objects/entities/cliff.cpp
             src/objects/entities/finishline.cpp
+            src/objects/entities/triangle.cpp
             lib/collision.cpp
+            lib/Collision.cpp
 )
 
 add_executable(DIVEUP ${SOURCES})

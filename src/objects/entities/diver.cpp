@@ -1,5 +1,7 @@
 #include "objects/entities/diver.h"
 #include "states/playing-state.h"
+#include "objects/entities/bubble.h"
+
 
 Diver::Diver(float constraintLeft, float constraintRight) : VisibleObject("assets/stand-diver3.png") {
     _constraintLeft = constraintLeft;
@@ -88,9 +90,39 @@ void Diver::collideWith(VisibleObject *target){
         _oxygen += 3;
         std::cout << "Oxygen: " << _oxygen << std::endl;
     }
-
 }
 
 void Diver::setFinishing(bool val){
     _finishing = val;
+}
+
+std::vector<sf::Vector2f> Diver::calculateAxes() {
+    std::vector<sf::Vector2f> axes;
+
+    sf::Vector2f edge = sf::Vector2f(0, 1);
+    sf::Vector2f axis(-edge.y, edge.x);  // Perpendicular axis
+    axes.push_back(axis);
+
+    return axes;
+}
+
+sf::Vector2f Diver::projectOntoAxis(const sf::Vector2f& axis) {
+    float minProjection = std::numeric_limits<float>::max();
+    float maxProjection = std::numeric_limits<float>::min();
+
+    // Find the vertices of the rectangular diver
+    sf::Vector2f vertices[4];
+    vertices[0] = sf::Vector2f(getLeft(), getTop());
+    vertices[1] = sf::Vector2f(getRight(), getTop());
+    vertices[2] = sf::Vector2f(getRight(), getBottom());
+    vertices[3] = sf::Vector2f(getLeft(), getBottom());
+
+
+    for(int i = 0; i < 4; i++){
+        float projection = axis.x * (vertices[i].x + getPosition().x)+ axis.y * (vertices[i].y + getPosition().y);
+        minProjection = std::min(minProjection, projection);
+        maxProjection = std::max(maxProjection, projection);
+    }
+
+    return sf::Vector2f(minProjection, maxProjection);
 }

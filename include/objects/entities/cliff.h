@@ -1,6 +1,7 @@
 # pragma once
 #include "objects/visible-object.h"
 #include "collision.h"
+#include "objects/entities/triangle.h"
 
 class Cliff: public VisibleObject {
 public:
@@ -13,8 +14,11 @@ public:
     static void verifySpace(std::vector<Cliff*> &_cliffs, Cliff &cliff);
 
     void collideWith(VisibleObject *target);
+    
+    Triangle* getTriangle();
 
-    private:
-        float velocity;
-        //Triangle triangle;
+private:
+    float velocity;
+    Triangle *triangle;
+    float direction;
 };
