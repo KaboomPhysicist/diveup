@@ -21,11 +21,11 @@ Cliff::Cliff(int sizex, int sizey, float dir, float speed) : VisibleObject("asse
 
 Triangle* Cliff::getTriangle(){
 
-    float xcoord = (direction == 1.0f) ? getLeft() : getRight();
-    float x2coord = (direction == 1.0f) ? getRight() : getLeft();
+    float xcoord = (direction == 1.0f) ? getRight() : getLeft();
+    float x2coord = (direction == 1.0f) ? (getLeft() + 20) : (getRight() - 20);
 
     sf::Vector2f topVertex = {xcoord, getTop()};
-    sf::Vector2f bottomVertex = {xcoord, getBottom()};
+    sf::Vector2f bottomVertex = {xcoord, getBottom() - 20};
     sf::Vector2f middleVertex = {x2coord, getTop()};
 
 
@@ -94,7 +94,7 @@ void Cliff::generateCliffs(std::vector<Cliff*> &_cliffs, float velocity,int clif
         //std::cout << "size: " << sizex << " " << sizey << std::endl;
 
 
-        Cliff *cliff = new Cliff(sizex,sizey,direction,velocity);
+        Cliff *cliff = new Cliff(sizex, sizey, direction, velocity);
         cliff->setPosition(_cliffPos.at(0), _cliffPos.at(1));
 
         // verify if the cliff does not intersect with another cliff
