@@ -5,9 +5,9 @@
 class Diver : public VisibleObject {
     public:
         Diver(float constraintLeft, float constraintRight);
-        void handleInput(sf::Event *event);
-        void update(float timeElapsed);
-        void collideWith(VisibleObject *target);
+        void handleInput(sf::Event *event) override;
+        void update(float timeElapsed) override;
+        void collideWith(VisibleObject *target) override;
 
         void Set_texture(std::string textureFilename);
         void setFinishing(bool);

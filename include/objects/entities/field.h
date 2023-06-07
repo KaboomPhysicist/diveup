@@ -4,5 +4,5 @@
 class Field: public VisibleObject {
 public:
     Field();
-    void update(float timeElapsed);
+    void update(float timeElapsed) override;
 };

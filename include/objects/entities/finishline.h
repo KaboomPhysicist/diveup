@@ -5,9 +5,9 @@
 class FinishLine: public VisibleObject {
     public:
         FinishLine(int position, float speed);
-        void update(float timeElapsed);
-        void handleInput(sf::Event *event);
-        void collideWith(VisibleObject *target);
+        void update(float timeElapsed) override;
+        void handleInput(sf::Event *event) override;
+        void collideWith(VisibleObject *target) override;
         void setFinishing(bool);
     private:
         float velocity;
