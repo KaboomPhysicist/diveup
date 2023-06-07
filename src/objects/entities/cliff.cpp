@@ -69,35 +69,29 @@ void Cliff::handleInput(sf::Event *event){}
 
 void Cliff::generateCliffs(std::vector<Cliff*> &_cliffs, float velocity,int cliffsMax){
 
-    std::cout << "Generating Cliffs" << std::endl;
-
     int _cliffsMax = cliffsMax;
     for (int i=0; i< _cliffsMax ;i++){
         
-
-        //generate random position for cliffs
         std::random_device rd;
         std::mt19937 gen(rd());
 
-        std::normal_distribution<float> ypos(0, 50);
-        std::normal_distribution<float> size(100, 50);
+        std::uniform_real_distribution<float> ypos(100,200);
+        std::uniform_real_distribution<float> size(100, 200);
 
         float direction = (rand() % 2 == 0);
         float altura = ypos(gen);
         
         std::vector<float> _cliffPos= {direction*DiveUp::SCREEN_WIDTH, altura};
 
-        //generate size for cliffs
         int sizex = size(gen)+100;
         int sizey = size(gen)+100;
 
+
         //std::cout << "size: " << sizex << " " << sizey << std::endl;
 
-
         Cliff *cliff = new Cliff(sizex, sizey, direction, velocity);
-        cliff->setPosition(_cliffPos.at(0), _cliffPos.at(1));
 
-        // verify if the cliff does not intersect with another cliff
+        cliff->setPosition(_cliffPos.at(0), _cliffPos.at(1));
 
         if (i > 0){
             verifyCliffs(_cliffs, *cliff); 
@@ -108,8 +102,8 @@ void Cliff::generateCliffs(std::vector<Cliff*> &_cliffs, float velocity,int clif
     }
     //the lowest cliff must be over 500, so let's move all cliffs up
     for (Cliff *i : _cliffs){ i->setPosition(i->getPosition().x, i->getPosition().y-500); }
-
 }
+
 
 void Cliff::verifyCliffs(std::vector<Cliff*> &_cliffs, Cliff &cliff){
 
