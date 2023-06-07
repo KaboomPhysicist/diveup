@@ -3,6 +3,7 @@ project(DIVEUP)
 set(CMAKE_CXX_STANDARD 17)
 
 find_package(SFML 2.5.1 COMPONENTS graphics)
+find_package(SFML 2.5.1 COMPONENTS audio)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/..)
 
@@ -35,9 +36,11 @@ set(SOURCES src/main.cpp
             src/objects/entities/triangle.cpp
             lib/collision.cpp
             lib/Collision.cpp
+            lib/music-manager.cpp
 )
 
 add_executable(DIVEUP ${SOURCES})
 
-target_link_libraries(DIVEUP sfml-graphics)
+target_link_libraries(DIVEUP sfml-graphics sfml-audio)
+
 

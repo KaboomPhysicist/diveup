@@ -7,6 +7,11 @@
 #include "objects/gui/newgame-button.h"
 #include "objects/gui/exit-button.h"
 #include "objects/entities/bubble.h"
+#include <SFML/Audio.hpp>
+
+
+
+
 class SplashscreenState : public GameState{
     public:
         void init() override;
@@ -15,9 +20,13 @@ class SplashscreenState : public GameState{
         void draw(sf::RenderWindow *window) override;
         void BubblesEffect();
         ~SplashscreenState() override;
+        //void stopMusic();
+        //void startMusic();
+        //sf::Music music;
     private:
         short int _bubbleMax;
         std::vector<Bubble*> _bubbles;
         std::vector<int> SCREEN_RANGE;
         sf::Rect<float> bubble_constraints;
+        
 };

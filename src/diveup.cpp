@@ -1,10 +1,13 @@
 # include "diveup.h"
 
+
 sf::RenderWindow DiveUp::_window;
 sf::Clock DiveUp::_clock;
 DiveUp::State DiveUp::_state = Uninitialized;
 std::map<DiveUp::State, GameState*> DiveUp::_stateInstances;
 GameState *DiveUp::_currentState;
+GameState *DiveUp::_currentstatemusic;
+Musicmanager DiveUp::musicmanager;
 
 void DiveUp::start()
 {
@@ -29,9 +32,13 @@ void DiveUp::start()
 
     // Set the initial state in Splashscreen
     _state = Splashscreen;
+    _currentstatemusic = _stateInstances[_state];
+
+    musicmanager.selectMusic();
+    musicmanager.startMusic();
 
     // Uncomment this line for enabling the debug state
-    _state = Debugging;
+    //_state = Debugging;
 
     gameLoop();
 
@@ -52,6 +59,8 @@ void DiveUp::gameLoop() {
 
         // We operate over the state that enters initially to the loop
         _currentState = _stateInstances[_state];
+        
+        //std::cout << "Current state: " << _state << std::endl;
 
         // Handle input
         sf::Event event;
@@ -59,6 +68,13 @@ void DiveUp::gameLoop() {
             if (event.type == sf::Event::Closed) { _state = Exiting; }
             _currentState->handleInput(&event);
         }
+
+        if (_currentState != _currentstatemusic){
+            musicmanager.selectMusic();
+            musicmanager.startMusic();
+        }
+        _currentstatemusic  = _currentState;
+
 
         // Update our entities
         _currentState->update(timeElapsed);
@@ -68,9 +84,9 @@ void DiveUp::gameLoop() {
 
         _window.display();
 
-        //_currentState->endLoopLogic();
-    }
-}
+
+        }}
+
 
 void DiveUp::setState(DiveUp::State s) {
     _state = s;
