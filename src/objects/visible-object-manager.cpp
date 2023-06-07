@@ -78,11 +78,11 @@ void VisibleObjectManager::drawAll(sf::RenderWindow *window) {
   std::multimap<size_t, VisibleObject*> *_orderedObjects = new std::multimap<size_t, VisibleObject*>();
 
   // Fills the multimap
+  
   auto itr = _objects.begin();
+
   while (itr != _objects.end()) {
-    //std::cout << "Object " << itr->first << " added to the ordered list" << std::endl;
     _orderedObjects->insert(std::make_pair(itr->second->getPriority(), itr->second));
-    
     itr++;
   }
 
@@ -90,7 +90,6 @@ void VisibleObjectManager::drawAll(sf::RenderWindow *window) {
   for(auto& pair : *_orderedObjects) {
     pair.second->draw(window);
   }
-
 
   delete  _orderedObjects;
 }

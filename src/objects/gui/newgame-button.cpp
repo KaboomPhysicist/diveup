@@ -1,5 +1,6 @@
 #include "objects/gui/newgame-button.h"
 #include "diveup.h"
+#include "states/splashscreen-state.h"
 
 NewGameButton :: NewGameButton() : VisibleObject("assets/newgame-btn.png"){}
 
@@ -10,6 +11,8 @@ void NewGameButton::handleInput(sf::Event *event) {
 
         if (getBoundingRect().contains(x, y)){
             std::cout << "New Game Button Pressed" << std::endl;
+            //dynamic_cast<SplashscreenState*>(DiveUp::getState())->stopMusic();
+
             DiveUp::setState(DiveUp::Playing);
         }
     }
