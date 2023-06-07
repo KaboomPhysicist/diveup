@@ -23,10 +23,15 @@ void DiveUp::start()
     _stateInstances[Gameover] = new gameoverState();
     _stateInstances[Gameover]->init();
     _stateInstances[NextLevel] = new NextLevelState();
-    _stateInstances[NextLevel]->init(); 
+    _stateInstances[NextLevel]->init();
+    _stateInstances[Debugging] = new DebugState();
+    _stateInstances[Debugging]->init();
 
     // Set the initial state in Splashscreen
     _state = Splashscreen;
+
+    // Uncomment this line for enabling the debug state
+    _state = Debugging;
 
     gameLoop();
 
