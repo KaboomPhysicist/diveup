@@ -20,9 +20,6 @@ class SplashscreenState : public GameState{
         void draw(sf::RenderWindow *window) override;
         void BubblesEffect();
         ~SplashscreenState() override;
-        //void stopMusic();
-        //void startMusic();
-        //sf::Music music;
     private:
         short int _bubbleMax;
         std::vector<Bubble*> _bubbles;

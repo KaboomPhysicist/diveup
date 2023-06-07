@@ -60,7 +60,7 @@ void PlayingState::update(float timeElapsed) {
     // update opacity of the oxygen marker
     opacityupdate(diver1->getOxygen());
     //update the oxygen of the player
-    diver1->setOxygen(diver1->getOxygen()-timeElapsed*1*log(_level+2));
+    diver1->setOxygen(diver1->getOxygen()-timeElapsed*1.5*log(_level+2));
 
     visibleObjectManager.updateAll(timeElapsed);
 }
@@ -180,7 +180,7 @@ switch (oxigenoquememuero) {
 
 void PlayingState::newLevel(){
 
-    std::cout << "Generando nuevo nivel" << std::endl;
+    //std::cout << "Generando nuevo nivel" << std::endl;
 
     diver1 = new Diver(0,400);
 
@@ -188,12 +188,12 @@ void PlayingState::newLevel(){
     diver1->setPosition(100, 600);
 
     sf::Rect<float> diverBound = diver1->getBoundingRect();
-    std::cout<<"diver width: "<< diverBound.width << std::endl;
+    //std::cout<<"diver width: "<< diverBound.width << std::endl;
 
     
     diver1->setPriority(2);
 
-    _ascendingSpeed = 200 * std::log(_level + 2);
+    _ascendingSpeed = 200 * std::log(_level + 4);
 
     int cliff_number = 10 + _level * 5;
     _cliffs = {};
@@ -207,7 +207,6 @@ void PlayingState::newLevel(){
     bubble_constraints = {0, -DiveUp::SCREEN_HEIGHT, DiveUp::SCREEN_WIDTH, 2*DiveUp::SCREEN_HEIGHT};
 
     Bubble::initBubbles(_bubbleMax, 30, _ascendingSpeed, bubble_constraints, SCREEN_RANGE, this->_bubbles, visibleObjectManager);
-
 
     float finishPosition = 0;
 

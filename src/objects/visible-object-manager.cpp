@@ -62,9 +62,6 @@ void VisibleObjectManager::updateAll(float timeElapsed) {
       //We replace the original implementation by the method given by the library
       //if (Collision::pixelPerfectTest(originItr->second->getSprite(), targetItr->second->getSprite())) {
       //   originItr->second->collideWith(targetItr->second);
-          //std::cout << "Collision detected" << std::endl;
-          //std::cout << "Origin: " << originItr->first << std::endl;
-          //std::cout << "Target: " << targetItr->first << std::endl;
       //}
 
       targetItr++;

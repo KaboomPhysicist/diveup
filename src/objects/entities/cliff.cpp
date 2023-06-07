@@ -37,18 +37,6 @@ Triangle* Cliff::getTriangle(){
 }
 
 void Cliff::collideWith(VisibleObject *target) {
-    if(!dynamic_cast<Diver*>(target) ) return;
-    
-    std::cout << "Te diste un tiestaso" << std::endl;
-    
-    // Check if State is PlayingState
-    if(!dynamic_cast<PlayingState*>(DiveUp::getState())) return;
-
-    dynamic_cast<PlayingState*>(DiveUp::getState())->setEnded(true);
-    dynamic_cast<PlayingState*>(DiveUp::getState())->resetLevel();
-
-    DiveUp::setState(DiveUp::Gameover);
-        
 };
 
 
@@ -75,8 +63,8 @@ void Cliff::generateCliffs(std::vector<Cliff*> &_cliffs, float velocity,int clif
         std::random_device rd;
         std::mt19937 gen(rd());
 
-        std::uniform_real_distribution<float> ypos(100,200);
-        std::uniform_real_distribution<float> size(100, 200);
+        std::normal_distribution<float> ypos(0, 50);
+        std::normal_distribution<float> size(100, 50);
 
         float direction = (rand() % 2 == 0);
         float altura = ypos(gen);

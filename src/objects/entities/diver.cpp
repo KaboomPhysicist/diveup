@@ -88,6 +88,19 @@ void Diver::collideWith(VisibleObject *target){
         _oxygen += 3;
         //std::cout << "Oxygen: " << _oxygen << std::endl;
     }
+
+    if(dynamic_cast<Cliff*>(target) ){
+    
+        std::cout << "Te diste un tiestaso" << std::endl;
+        // Check if State is PlayingState
+        if(!dynamic_cast<PlayingState*>(DiveUp::getState())) return;
+
+        dynamic_cast<PlayingState*>(DiveUp::getState())->setEnded(true);
+        dynamic_cast<PlayingState*>(DiveUp::getState())->resetLevel();
+
+        DiveUp::setState(DiveUp::Gameover);
+    }
+
 }
 
 void Diver::setFinishing(bool val){

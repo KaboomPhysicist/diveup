@@ -26,21 +26,10 @@ void SplashscreenState::init() {
     visibleObjectManager.add("splashscreen", splashscreen);
     visibleObjectManager.add("newGameButton", newGameButton);
     visibleObjectManager.add("exitButton", exitButton);
-    std::cout << "Splashscreen initialized" << std::endl;
+    //std::cout << "Splashscreen initialized" << std::endl;
 
-   /* if (!music.openFromFile("/home/laura/Documents/Universidad/Semestre 9/Física computacional II/Proyecto-final/diveup/assets/sound(1).wav"))
-        std::cout << "Error loading music" << std::endl;
-    music.play();
-    music.setLoop(true);*/
+}
 
-}/*
-void SplashscreenState::stopMusic(){
-    music.stop();
-}
-void SplashscreenState::startMusic(){
-    music.play();
-}
-*/
 void SplashscreenState::handleInput(sf::Event *event) {
     visibleObjectManager.handleInputAll(event);
 }
@@ -55,7 +44,11 @@ void SplashscreenState::draw(sf::RenderWindow *window) {
     visibleObjectManager.drawAll(window);
 }
 
-SplashscreenState::~SplashscreenState() { }
+SplashscreenState::~SplashscreenState() {
+    visibleObjectManager.remove("splashscreen");
+    visibleObjectManager.remove("newGameButton");
+    visibleObjectManager.remove("exitButton");
+}
 
 void SplashscreenState::BubblesEffect(){
 

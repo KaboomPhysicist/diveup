@@ -9,7 +9,7 @@ FinishLine::FinishLine(int position, float speed) : VisibleObject("assets/finish
 
 void FinishLine::collideWith(VisibleObject *target) {
     if(!dynamic_cast<Diver*>(target) ) return;
-    std::cout << "Llegaste a la meta" << std::endl;
+    //std::cout << "Llegaste a la meta" << std::endl;
     dynamic_cast<PlayingState*>(DiveUp::getState())->setEnded(true);
     DiveUp::setState(DiveUp::NextLevel);
 };

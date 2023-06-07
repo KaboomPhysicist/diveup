@@ -130,8 +130,6 @@ void Bubble::GenerateBubble(short int index, float velocity_factor, float veloci
     int x = disx(gen);
     int y = disy(gen);
 
-    //std::cout << "Bubble index: " << index << std::endl;
-
     //sf::Rect<float> constraints(0, SCREEN_RANGE.at(2), SCREEN_RANGE.at(1), 720);
 
     _bubbles.at(index) = new Bubble(constraints, velocity_factor, velocity_bias);
@@ -141,13 +139,12 @@ void Bubble::GenerateBubble(short int index, float velocity_factor, float veloci
 
     std::ostringstream bubbleName;
     bubbleName << "bubble" << index;
-    //std::cout << "Created Bubble name: " << bubbleName.str() << std::endl;
 
     visibleObjectManager.add(bubbleName.str(), _bubbles.at(index));
 }
 
 void Bubble::initBubbles(short int bubbleMax, float velocity_factor, float velocity_bias, sf::Rect<float> constraints, std::vector<int> SCREEN_RANGE, std::vector <Bubble*>& _bubbles, VisibleObjectManager& visibleObjectManager){
-    std::cout << "Initializing Bubbles" << std::endl;
+    //std::cout << "Initializing Bubbles" << std::endl;
     for(int i=0; i<bubbleMax; i++){
         GenerateBubble(i, velocity_factor, velocity_bias, constraints, SCREEN_RANGE, _bubbles, visibleObjectManager);
     }

@@ -10,9 +10,14 @@ void NewGameButton::handleInput(sf::Event *event) {
         int y = event->mouseButton.y;
 
         if (getBoundingRect().contains(x, y)){
-            std::cout << "New Game Button Pressed" << std::endl;
+            //std::cout << "New Game Button Pressed" << std::endl;
             //dynamic_cast<SplashscreenState*>(DiveUp::getState())->stopMusic();
 
+            DiveUp::setState(DiveUp::Playing);
+        }
+    }
+    else if (event->type == sf::Event::KeyPressed) {
+        if (event->key.code == sf::Keyboard::Return) {
             DiveUp::setState(DiveUp::Playing);
         }
     }

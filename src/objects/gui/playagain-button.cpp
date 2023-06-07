@@ -14,6 +14,11 @@ void PlayAgain::handleInput(sf::Event *event) {
             DiveUp::setState(DiveUp::Splashscreen);
         }
     }
+    else if (event->type == sf::Event::KeyPressed) {
+        if (event->key.code == sf::Keyboard::Return) {
+            DiveUp::setState(DiveUp::Splashscreen);
+        }
+    }
 }
 
 void PlayAgain::update(float timeElapsed) { }
