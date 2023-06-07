@@ -47,35 +47,27 @@ void Diver::setOxygen(float oxygen) {
     
 void Diver::update(float timeElapsed) {
 
-
     float x_velocity = 0.0f;
 
-       if (_direction == Left) {
-        x_velocity = _speed * -1;
-    } else if (_direction == Right) {
-        x_velocity = _speed;
-    }
+    if (_direction == Left) {x_velocity = _speed * -1;}
+    else if (_direction == Right) {x_velocity = _speed;}
 
-    if(_finishing){
-        y_velocity = -400;
-    }
+    if(_finishing){y_velocity = -400;}
     else y_velocity = 0;
 
-    
     move(x_velocity * timeElapsed, y_velocity * timeElapsed);
 
     if (getPosition().x < _constraintLeft) {
-        setPosition(_constraintLeft, getPosition().y);
-    } else if (getPosition().x > _constraintRight) {
-        setPosition(_constraintRight, getPosition().y);
-    }
+        setPosition(_constraintLeft, getPosition().y);}
+    else if (getPosition().x > _constraintRight) {
+        setPosition(_constraintRight, getPosition().y);}
 }
 
 void Diver::collideWith(VisibleObject *target){
     if(!dynamic_cast<Bubble*>(target)) return;
 
     _oxygen += 3;
-    std::cout << "Oxygen: " << _oxygen << std::endl;
+    //std::cout << "Oxygen: " << _oxygen << std::endl;
 
 }
 
