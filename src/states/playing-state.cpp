@@ -5,6 +5,10 @@ void PlayingState::init() {
   // Initialize the level to 0 and declare a new level.
     _level = 0;
     initAirmarker(50,50);
+    Field *field = new Field();
+    visibleObjectManager.add("field", field);
+    field->setPriority(0);
+
     newLevel();
 }
 
@@ -66,6 +70,7 @@ void PlayingState::reset(){
     //Remove diver and finishline from the visibleObjectManager
     visibleObjectManager.remove("diver1");
     visibleObjectManager.remove("finishline");
+    //visibleObjectManager.remove("field");
 
     //Clean the bubble and cliff vectors.
     for (int i = 0; i < _cliffs.size(); i++){
@@ -177,7 +182,6 @@ void PlayingState::newLevel(){
 
     std::cout << "Generando nuevo nivel" << std::endl;
 
-    Field *field = new Field();
     diver1 = new Diver(0,400);
 
     diver1->setFinishing(false);
@@ -187,7 +191,6 @@ void PlayingState::newLevel(){
     std::cout<<"diver width: "<< diverBound.width << std::endl;
 
     
-    field->setPriority(0);
     diver1->setPriority(2);
 
     _ascendingSpeed = 200 * std::log(_level + 2);
@@ -233,7 +236,7 @@ void PlayingState::newLevel(){
     finishline->setPriority(1);
     finishline->setFinishing(false);
 
-    visibleObjectManager.add("field", field);
+    //visibleObjectManager.add("field", field);
     visibleObjectManager.add("diver1", diver1);
     visibleObjectManager.add("finishline", finishline);
 }

@@ -20,6 +20,7 @@ void VisibleObjectManager::remove(std::string name) {
     if (results != _objects.end()) {
         //std::cout << results->first << " deleted" << std::endl;
         delete results->second;
+        results->second = NULL;
         _objects.erase(results);
         //std::cout << "Object " << name << " removed" << std::endl;
   }
