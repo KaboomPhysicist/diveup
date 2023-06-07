@@ -27,10 +27,10 @@ void Diver::Set_texture(std::string textureFilename) {
 
 void Diver::handleInput(sf::Event *event) {
     if (event->type == sf::Event::KeyPressed) {
-        if (event->key.code == sf::Keyboard::Left) {
+        if (event->key.code == sf::Keyboard::Left or event->key.code == sf::Keyboard::A) {
             _direction = Left;
             this->Set_texture("assets/diver-left.png");
-        } else if (event->key.code == sf::Keyboard::Right) {
+        } else if (event->key.code == sf::Keyboard::Right or event->key.code == sf::Keyboard::D) {
             _direction = Right;
             this->Set_texture("assets/diver-right.png");
         } else if (dynamic_cast<DebugState*>(DiveUp::getState())){

@@ -14,9 +14,13 @@ void NextLevelButton::handleInput(sf::Event *event) {
         int y = event->mouseButton.y;
 
         if (getBoundingRect().contains(x, y)){
-            std::cout << "Next Level Button Pressed" << std::endl;
+            //std::cout << "Next Level Button Pressed" << std::endl;
             
             DiveUp::setState(DiveUp::Playing);
         }
+    }
+    if (event->type == sf::Event::KeyPressed && event->key.code == sf::Keyboard::Enter) {
+        std::cout << "Next Level Button Pressed" << std::endl;
+        DiveUp::setState(DiveUp::Playing);
     }
 }
