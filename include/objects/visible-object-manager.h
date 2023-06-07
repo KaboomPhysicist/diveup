@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "visible-object.h"
 #include "collision.h"
+#include "Collision.h"
 
 class VisibleObjectManager {
 public:

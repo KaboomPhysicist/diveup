@@ -1,8 +1,9 @@
 #include "objects/entities/cliff.h"
 #include "diveup.h"
 
-Cliff::Cliff(int sizex, int sizey,float dir,float speed) : VisibleObject("assets/cliff2.png") { 
-    sf::Vector2f targetSize(sizex, sizey); 
+Cliff::Cliff(int sizex, int sizey, float dir, float speed) : VisibleObject("assets/cliff1.png") { 
+    sf::Vector2f targetSize(sizex, sizey);
+    this->direction = dir;
     if (dir == 1.0f) {
         this->_sprite.setScale(
                             -targetSize.x / this->_sprite.getLocalBounds().width, 
@@ -18,6 +19,22 @@ Cliff::Cliff(int sizex, int sizey,float dir,float speed) : VisibleObject("assets
     velocity = speed;
 }
 
+Triangle* Cliff::getTriangle(){
+
+    float xcoord = (direction == 1.0f) ? getRight() : getLeft();
+    float x2coord = (direction == 1.0f) ? (getLeft() + 20) : (getRight() - 20);
+
+    sf::Vector2f topVertex = {xcoord, getTop()};
+    sf::Vector2f bottomVertex = {xcoord, getBottom() - 20};
+    sf::Vector2f middleVertex = {x2coord, getTop()};
+
+
+    sf::Vector2f pos = getPosition();
+
+    triangle = new Triangle(topVertex, bottomVertex, middleVertex, pos);
+
+    return triangle;
+}
 
 void Cliff::collideWith(VisibleObject *target) {
     if(!dynamic_cast<Diver*>(target) ) return;
@@ -69,13 +86,17 @@ void Cliff::generateCliffs(std::vector<Cliff*> &_cliffs, float velocity,int clif
         int sizex = size(gen)+100;
         int sizey = size(gen)+100;
 
-        Cliff *cliff = new Cliff(sizex,sizey,direction,velocity);
+
+        //std::cout << "size: " << sizex << " " << sizey << std::endl;
+
+        Cliff *cliff = new Cliff(sizex, sizey, direction, velocity);
+
         cliff->setPosition(_cliffPos.at(0), _cliffPos.at(1));
 
         if (i > 0){
             verifyCliffs(_cliffs, *cliff); 
             verifySpace(_cliffs, *cliff);}
-    
+
         _cliffs.push_back(cliff);
 
     }

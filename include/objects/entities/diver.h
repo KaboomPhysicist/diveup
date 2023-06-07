@@ -1,7 +1,6 @@
 # pragma once
 
 #include "objects/visible-object.h"
-#include "objects/entities/bubble.h"
 
 class Diver : public VisibleObject {
     public:
@@ -15,6 +14,9 @@ class Diver : public VisibleObject {
 
         float getOxygen();
         void setOxygen(float);
+
+        std::vector<sf::Vector2f> calculateAxes();
+        sf::Vector2f projectOntoAxis(const sf::Vector2f& axis);
         
 
     private:

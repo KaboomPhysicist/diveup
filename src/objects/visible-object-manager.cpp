@@ -50,18 +50,21 @@ void VisibleObjectManager::updateAll(float timeElapsed) {
   auto targetItr = _objects.begin();    while (targetItr != _objects.end()) {
     if (targetItr == originItr) { targetItr++; continue; }
       
-      /*sf::Rect<float> targetBound = targetItr->second->getBoundingRect();      
+      sf::Rect<float> targetBound = targetItr->second->getBoundingRect(); 
+
       if (originBound.intersects(targetBound)) {
-        originItr->second->collideWith(targetItr->second);
-      }*/
+        if(colision::checkCollision(originItr->second, targetItr->second)){
+          originItr->second->collideWith(targetItr->second);
+        }
+      }
 
       //We replace the original implementation by the method given by the library
-      if (Collision::pixelPerfectTest(originItr->second->getSprite(), targetItr->second->getSprite())) {
-          originItr->second->collideWith(targetItr->second);
+      //if (Collision::pixelPerfectTest(originItr->second->getSprite(), targetItr->second->getSprite())) {
+      //   originItr->second->collideWith(targetItr->second);
           //std::cout << "Collision detected" << std::endl;
           //std::cout << "Origin: " << originItr->first << std::endl;
           //std::cout << "Target: " << targetItr->first << std::endl;
-      }
+      //}
 
       targetItr++;
     }

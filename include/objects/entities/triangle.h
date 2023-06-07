@@ -1,9 +1,8 @@
 #pragma once
-
-#include "objects/visible-object.h"
 #include <vector>
+#include <SFML/Graphics.hpp>
 
-class Triangle : public VisibleObject {
+class Triangle {
 public:
     Triangle(const sf::Vector2f& vertex1, const sf::Vector2f& vertex2, const sf::Vector2f& vertex3, const sf::Vector2f& position);
 
