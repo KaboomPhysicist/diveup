@@ -20,7 +20,6 @@ void NextLevelButton::handleInput(sf::Event *event) {
         }
     }
     if (event->type == sf::Event::KeyPressed && event->key.code == sf::Keyboard::Enter) {
-        std::cout << "Next Level Button Pressed" << std::endl;
         DiveUp::setState(DiveUp::Playing);
     }
 }

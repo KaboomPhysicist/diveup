@@ -13,7 +13,12 @@ void ExitButton::handleInput(sf::Event *event) {
         int y = event->mouseButton.y;
 
         if (getBoundingRect().contains(x, y)){
-            std::cout << "ExitButton Pressed" << std::endl;
+            //std::cout << "ExitButton Pressed" << std::endl;
+            DiveUp::setState(DiveUp::Exiting);
+        }
+    }
+    if (event->type == sf::Event::KeyPressed) {
+        if (event->key.code == sf::Keyboard::Escape) {
             DiveUp::setState(DiveUp::Exiting);
         }
     }

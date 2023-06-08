@@ -126,10 +126,10 @@ sf::Vector2f Diver::projectOntoAxis(const sf::Vector2f& axis) {
 
     // Find the vertices of the rectangular diver
     sf::Vector2f vertices[4];
-    vertices[0] = sf::Vector2f(getLeft(), getTop());
-    vertices[1] = sf::Vector2f(getRight(), getTop());
-    vertices[2] = sf::Vector2f(getRight(), getBottom());
-    vertices[3] = sf::Vector2f(getLeft(), getBottom());
+    vertices[0] = sf::Vector2f(getLeft() + 4, getTop());
+    vertices[1] = sf::Vector2f(getRight() - 4, getTop());
+    vertices[2] = sf::Vector2f(getRight() -4, getBottom());
+    vertices[3] = sf::Vector2f(getLeft() + 4, getBottom());
 
 
     for(int i = 0; i < 4; i++){
