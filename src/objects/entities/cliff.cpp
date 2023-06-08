@@ -28,10 +28,7 @@ Triangle* Cliff::getTriangle(){
     sf::Vector2f bottomVertex = {xcoord, getBottom() - 20};
     sf::Vector2f middleVertex = {x2coord, getTop()};
 
-
-    sf::Vector2f pos = getPosition();
-
-    triangle = new Triangle(topVertex, bottomVertex, middleVertex, pos);
+    triangle = new Triangle(topVertex, bottomVertex, middleVertex);
 
     return triangle;
 }

@@ -3,11 +3,10 @@
 #include <cmath>
 
 
-Triangle::Triangle(const sf::Vector2f& vertex1, const sf::Vector2f& vertex2, const sf::Vector2f& vertex3, const sf::Vector2f& position) {
+Triangle::Triangle(const sf::Vector2f& vertex1, const sf::Vector2f& vertex2, const sf::Vector2f& vertex3) {
     vertices[0] = vertex1;
     vertices[1] = vertex2;
     vertices[2] = vertex3;
-    this->position = position;
 }
 
     // Calculate the axes perpendicular to each edge
@@ -17,7 +16,7 @@ std::vector<sf::Vector2f> Triangle::calculateAxes() {
     for (int i = 0; i < 3; i++) {
         sf::Vector2f edge = vertices[(i + 1) % 3] - vertices[i];
         float norm = std::sqrt(edge.x * edge.x + edge.y * edge.y);
-        sf::Vector2f axis(-edge.y/norm, edge.x/norm);  // Perpendicular axis
+        sf::Vector2f axis(-edge.y, edge.x);  // Perpendicular axis
         axes.push_back(axis);
     }
 
