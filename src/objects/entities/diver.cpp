@@ -109,10 +109,17 @@ void Diver::setFinishing(bool val){
 
 std::vector<sf::Vector2f> Diver::calculateAxes() {
     std::vector<sf::Vector2f> axes;
-
     sf::Vector2f axis1(0, 1);
     sf::Vector2f axis2(1, 0);
 
+    /*if (_direction == Left){
+        axis1 = sf::Vector2f(1, 0);
+        axis2 = sf::Vector2f(-23, 11);
+    }
+    else if (_direction == Right){
+        axis1 = sf::Vector2f(1, 0);
+        axis2 = sf::Vector2f(11, 23);
+    }*/
 
     axes.push_back(axis1);
     axes.push_back(axis2);
@@ -124,22 +131,40 @@ sf::Vector2f Diver::projectOntoAxis(const sf::Vector2f& axis) {
     float minProjection = std::numeric_limits<float>::max();
     float maxProjection = -std::numeric_limits<float>::max();
 
-    // Find the vertices of the rectangular diver
     sf::Vector2f vertices[4];
-    vertices[0] = sf::Vector2f(getLeft() + 4, getTop());
-    vertices[1] = sf::Vector2f(getRight() - 4, getTop());
-    vertices[2] = sf::Vector2f(getRight() -4, getBottom());
-    vertices[3] = sf::Vector2f(getLeft() + 4, getBottom());
 
+    // Find the vertices of the rectangular diver
+    //if (_direction == NONE){
+        vertices[0] = sf::Vector2f(getLeft() + 4, getTop());
+        vertices[1] = sf::Vector2f(getRight() - 4, getTop());
+        vertices[2] = sf::Vector2f(getRight() -4, getBottom());
+        vertices[3] = sf::Vector2f(getLeft() + 4, getBottom());
 
-    for(int i = 0; i < 4; i++){
-        //std::cout << "Vertex" << " " <<vertices[i].x << " " << vertices[i].y << std::endl;
-        float projection = axis.x * (vertices[i].x)+ axis.y * (vertices[i].y);
-        minProjection = std::min(minProjection, projection);
-        maxProjection = std::max(maxProjection, projection);
-    }
-
+    //}
     //std::cout << "minProjection: " << minProjection << "maxProjection: " << maxProjection << std::endl;
 
+   /* else if (_direction == Left){
+
+        vertices[0] = sf::Vector2f(getLeft() + 1, getTop());
+        vertices[1] = sf::Vector2f(getRight() - 13, getTop());
+        vertices[2] = sf::Vector2f(getRight(), getBottom() - 5);
+        vertices[3] = sf::Vector2f(getLeft() + 12, getBottom() - 5);
+    }
+
+    else if (_direction == Right){
+        vertices[0] = sf::Vector2f(getRight() - 1, getTop());
+        vertices[1] = sf::Vector2f(getLeft() + 13, getTop());
+        vertices[2] = sf::Vector2f(getLeft(), getBottom() - 5);
+        vertices[3] = sf::Vector2f(getRight() - 12, getBottom() - 5);
+    }*/
+
+    for(int i = 0; i < 4; i++){
+            //std::cout << "Vertex" << " " <<vertices[i].x << " " << vertices[i].y << std::endl;
+            float projection = axis.x * (vertices[i].x)+ axis.y * (vertices[i].y);
+            minProjection = std::min(minProjection, projection);
+            maxProjection = std::max(maxProjection, projection);
+            }
+
     return sf::Vector2f(minProjection, maxProjection);
+
 }
